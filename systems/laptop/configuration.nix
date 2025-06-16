@@ -9,7 +9,7 @@
 
   # enable flakes and nix-command, you always want this
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  
+
   # always fine, could be parameterized in the future
   time.timeZone = "Europe/Amsterdam";
 
@@ -32,7 +32,7 @@
   users.users.${user} = {
     isNormalUser = true;
     initialPassword = " ";
-    extraGroups = [ "wheel" ];
+    extraGroups = [ "wheel" "video" "input" "seat" ];
   };
 
   # configure the bootloader
@@ -61,26 +61,14 @@
 
   # enable pipewire
   services.pipewire = {
-  	enable = true;
-	pulse.enable = true;
+    enable = true;
+    pulse.enable = true;
   };
 
   # enable touchpad support
   services.libinput.enable = true;
 
-  #
-
-  # greeter + hyprland
-  # environment.sessionVariables.NIXOS_OZONE_WL = "1";
-  # services.xserver.enable = false;
-  # services.xserver.displayManager.gdm.enable = true;
-  # programs.hyprland.enable = true;
-
-  # services.xserver.videoDrivers = [ "nvidia" ];
-  # hardware.nvidia = {
-  #   modesetting.enable = true;
-  #   open = false;
-  #   nvidiaSettings = true;
-  # };
-
+  # TODO: what is this
+  security.polkit.enable = true;
+  hardware.opengl = { enable = true; };
 }

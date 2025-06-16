@@ -3,9 +3,7 @@
 
   inputs = {
     # import the unstable branch of nixpkgs
-    nixpkgs = {
-      url = "github:nixos/nixpkgs?ref=nixos-unstable";
-    };
+    nixpkgs = { url = "github:nixos/nixpkgs?ref=nixos-unstable"; };
 
     # home manager is used to manage our home directory (like neovim config) but also
     # install tools (like git)
@@ -20,23 +18,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-  outputs =
-    {
-      self,
-      nixpkgs,
-      home-manager,
-      disko,
-      ...
-    }:
+  outputs = { self, nixpkgs, home-manager, disko, ... }:
     let
       # default development laptop system
       laptop = import ./systems/laptop/system.nix;
-      
+
       # host system
       # TODO: this needs to autodetect
-      hostSystem ="x86_64-linux";
-    in
-    {
+      hostSystem = "x86_64-linux";
+    in {
       nixosConfigurations = {
         # configuration for a laptop / desktop system with development stuff
         # NOTE: currently, the only system, but we could have more.

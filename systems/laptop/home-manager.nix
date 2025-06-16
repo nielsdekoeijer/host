@@ -8,7 +8,16 @@
     stateVersion = stateVersion;
 
     # packages for the user
-    packages = [ pkgs.neovim pkgs.nixfmt-classic pkgs.ripgrep pkgs.kitty pkgs.hyprland pkgs.wofi ];
+    packages = [
+      pkgs.neovim
+      pkgs.nixfmt-classic
+      pkgs.ripgrep
+      pkgs.dwl
+      pkgs.foot
+      pkgs.htop
+      pkgs.wmenu
+      pkgs.dejavu_fonts
+    ];
 
   };
 
@@ -22,19 +31,16 @@
   # bash settings
   programs.bash = {
     enable = true;
-    shellAliases = {
-    vi = "nvim";
-    };
+    shellAliases = { vi = "nvim"; };
+    bashrcExtra = ''
+      export EDITOR=nvim
+      export VISUAL=nvim
+      export PAGER="nvim +Man!"
+      PS1="\[\e[1;32m\]\u\[\e[0m\]@\[\e[1;31m\]$HOSTNAME\[\e[0m\]:\[\e[1;34m\]\w\[\e[0m\]\$ "
+    '';
   };
 
   # enable firefox
   programs.firefox.enable = true;
 
-  # configure hyprland
-  # wayland.windowManager.hyprland = {
-  #  enable = true;
-  #  # extraConfig = ''
-  #  # 	$menu = wofi --show drun
-  #  # '';
-  #  };
 }
