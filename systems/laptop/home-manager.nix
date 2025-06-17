@@ -55,12 +55,8 @@
     vimAlias = true;
 
     # extra things to make things work
-    extraPackages = [
-      pkgs.ripgrep
-      pkgs.nixfmt-classic
-      pkgs.clang-tools
-      pkgs.nil
-    ];
+    extraPackages =
+      [ pkgs.ripgrep pkgs.nixfmt-classic pkgs.clang-tools pkgs.nil ];
 
     # plugins
     plugins = [
@@ -75,7 +71,7 @@
     extraLuaConfig = ''
       -- color
       vim.cmd.colorscheme('aurora')
-      
+
       -- defaults
       vim.opt.expandtab = true
       vim.opt.shiftwidth = 4
@@ -87,17 +83,17 @@
       vim.opt.number = true
       vim.opt.termguicolors = true
       vim.opt.signcolumn = "yes"
-      
+
       -- leader
       vim.g.mapleader = " "
-      
+
       -- telescope
       local builtin = require('telescope.builtin')
       vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
       vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
       vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
       vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
-      
+
       -- lsp
       vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
       vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>')
@@ -106,11 +102,11 @@
       vim.keymap.set('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
       vim.keymap.set('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>')
       vim.keymap.set('n', '<leader>fm', '<cmd>lua vim.lsp.buf.formatting()<CR>')
-      
+
       -- yank
       vim.keymap.set({'n', 'v'}, 'y', '"+y', { desc = 'Yank to system clipboard' })
       vim.keymap.set({'n'}, 'Y', '"+Y', { desc = 'Yank line to system clipboard' })
-      
+
       -- terminal
       function Terminal()
           vim.cmd("botright split")
@@ -126,22 +122,6 @@
               vim.cmd("startinsert")  -- Automatically enter insert mode
           end
       })
-
-      -- lsp config 
-      local lspconfig = require('lspconfig')
-      lspconfig.clangd.setup({})
-      lspconfig.nil_ls.setup({
-      settings = {
-          ['nil'] = {
-            formatting = {
-              command = { "nixfmt" }
-            }
-          }
-        }
-      })
-
-
-        
     '';
   };
 
