@@ -1,4 +1,4 @@
-{ pkgs, user, hostName, stateVersion, lib, ... }: {
+{ config, pkgs, user, hostName, stateVersion, lib, ... }: {
   imports = [ ./disko.nix ];
 
   # propegate the state version
@@ -59,6 +59,9 @@
     kernelModules = [ "uinput" "kvm-intel" ];
   };
 
+  # intel
+  # hardware.cpu.intel.updateMicrocode = lib.mkdefault config.hardware.enableRedistributableFirmware;
+
   # enable pipewire
   services.pipewire = {
     enable = true;
@@ -68,7 +71,15 @@
   # enable touchpad support
   services.libinput.enable = true;
 
-  # TODO: what is this
-  security.polkit.enable = true;
-  hardware.opengl = { enable = true; };
+  # configure graphics
+  services.xserver.enable = true;
+  services.xserver.videoDrivers = [ "nvidia" ];
+  hardware.nvidia.modesetting.enable = true;
+  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
+  hardware.nvidia.open = true;
+
+  # configure displaymanager
+  services.displayManager.gdm.enable = true;
+  programs.hyprland = { enable = true; };
+  environment.sessionVariables.NIXOS_OZONE_WL = "1"; # dunno
 }
