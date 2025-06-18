@@ -11,10 +11,11 @@
     packages = [
       # formatters
       pkgs.nixfmt-classic
-      pkgs.rsync
 
       # helpers
       pkgs.htop
+      pkgs.rsync
+      pkgs.jq
 
       # for hyprland
       pkgs.wofi
@@ -23,6 +24,7 @@
 
       # font for everything
       pkgs.nerd-fonts.fantasque-sans-mono
+
     ];
 
     # set variables
@@ -43,7 +45,6 @@
   # bash settings
   programs.bash = {
     enable = true;
-    shellAliases = { vi = "nvim"; };
     bashrcExtra = ''
       PS1="\[\e[1;32m\]\u\[\e[0m\]@\[\e[1;31m\]$HOSTNAME\[\e[0m\]:\[\e[1;34m\]\w\[\e[0m\]\$ "
     '';
@@ -74,6 +75,9 @@
       # lsp stuff
       pkgs.vimPlugins.nvim-lspconfig
       pkgs.vimPlugins.nvim-cmp
+      pkgs.vimPlugins.luasnip
+      pkgs.vimPlugins.cmp-buffer
+      pkgs.vimPlugins.cmp-path
       pkgs.vimPlugins.cmp-nvim-lsp
 
       # basic
@@ -99,6 +103,13 @@
       vim.opt.number = true
       vim.opt.termguicolors = true
       vim.opt.signcolumn = "yes"
+
+      -- diagnostics
+      vim.diagnostic.config{
+        virtual_text = true,
+        signs        = true,
+        underline    = true,
+      }
 
       -- leader
       vim.g.mapleader = " "
@@ -150,13 +161,13 @@
           ['<C-k>'] = cmp.mapping.select_prev_item(),  -- like <C-p>
           ['<C-f>'] = cmp.mapping.scroll_docs(4),      -- page down docs
           ['<C-b>'] = cmp.mapping.scroll_docs(-4),     -- page up
-          ['<CR>']  = cmp.mapping.confirm({ select = true }),
-          ['<Esc>'] = cmp.mapping.abort(),
+          ['<C-CR>']  = cmp.mapping.confirm({ select = true }),
+          ['<C-e>'] = cmp.mapping.abort(),
         }),
       }
+      local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
       -- nix lsp
-      local capabilities = require('cmp_nvim_lsp').default_capabilities()
       require('lspconfig').nixd.setup{
         capabilities = capabilities,
         settings = {
@@ -165,6 +176,19 @@
           },
         },
       }
+
+      -- nix lsp
+      require('lspconfig').clangd.setup{
+        capabilities = capabilities,
+        root_dir = function(fname)
+          local util = require('lspconfig.util')
+          return util.root_pattern('compile_commands.json')(fname)
+              or util.find_git_ancestor(fname)
+              or util.path.dirname(fname)
+        end,
+        cmd = { 'clangd', '--background-index' },
+      }
+
     '';
   };
 

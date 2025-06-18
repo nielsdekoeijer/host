@@ -32,7 +32,7 @@
   users.users.${user} = {
     isNormalUser = true;
     initialPassword = " ";
-    extraGroups = [ "wheel" "video" "input" "seat" ];
+    extraGroups = [ "wheel" "video" "input" "seat" "docker" ];
   };
 
   # configure the bootloader
@@ -59,8 +59,9 @@
     kernelModules = [ "uinput" "kvm-intel" ];
   };
 
-  # intel
-  # hardware.cpu.intel.updateMicrocode = lib.mkdefault config.hardware.enableRedistributableFirmware;
+  # docker
+  virtualisation.docker.enable = true;
+  virtualisation.docker.rootless.enable = true;
 
   # enable pipewire
   services.pipewire = {
