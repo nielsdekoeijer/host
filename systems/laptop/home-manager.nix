@@ -11,6 +11,7 @@
     packages = [
       # formatters
       pkgs.nixfmt-classic
+      pkgs.rsync
 
       # helpers
       pkgs.htop
@@ -23,6 +24,13 @@
       # font for everything
       pkgs.nerd-fonts.fantasque-sans-mono
     ];
+
+    # set variables
+    sessionVariables = {
+      EDITOR = "nvim";
+      VISUAL = "nvim";
+      PAGER = "nvim +Man!";
+    };
   };
 
   # git settings
@@ -37,9 +45,6 @@
     enable = true;
     shellAliases = { vi = "nvim"; };
     bashrcExtra = ''
-      export EDITOR=nvim
-      export VISUAL=nvim
-      export PAGER="nvim +Man!"
       PS1="\[\e[1;32m\]\u\[\e[0m\]@\[\e[1;31m\]$HOSTNAME\[\e[0m\]:\[\e[1;34m\]\w\[\e[0m\]\$ "
     '';
   };
@@ -56,14 +61,25 @@
 
     # extra things to make things work
     extraPackages =
-      [ pkgs.ripgrep pkgs.nixfmt-classic pkgs.clang-tools pkgs.nil ];
+      [ pkgs.ripgrep pkgs.nixfmt-classic pkgs.clang-tools pkgs.nixd ];
 
     # plugins
     plugins = [
+      # colorscheme
       pkgs.vimPlugins.aurora
+
+      # navigation
       pkgs.vimPlugins.telescope-nvim
+
+      # lsp stuff
       pkgs.vimPlugins.nvim-lspconfig
+      pkgs.vimPlugins.nvim-cmp
+      pkgs.vimPlugins.cmp-nvim-lsp
+
+      # basic
       pkgs.vimPlugins.nvim-treesitter.withAllGrammars
+
+      # async helper
       pkgs.vimPlugins.plenary-nvim
     ];
 
@@ -101,7 +117,7 @@
       vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
       vim.keymap.set('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
       vim.keymap.set('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>')
-      vim.keymap.set('n', '<leader>fm', '<cmd>lua vim.lsp.buf.formatting()<CR>')
+      vim.keymap.set('n', '<leader>fm', '<cmd>lua vim.lsp.buf.format()<CR>')
 
       -- yank
       vim.keymap.set({'n', 'v'}, 'y', '"+y', { desc = 'Yank to system clipboard' })
@@ -122,6 +138,33 @@
               vim.cmd("startinsert")  -- Automatically enter insert mode
           end
       })
+
+      -- completion
+      vim.opt.completeopt = { 'menuone', 'noselect' }
+      local cmp = require('cmp')
+      cmp.setup{
+        snippet = { expand = function(a) require('luasnip').lsp_expand(a.body) end },
+        sources  = { { name = 'nvim_lsp' }, { name = 'path' }, { name = 'buffer' } },
+        mapping = cmp.mapping.preset.insert({
+          ['<C-j>'] = cmp.mapping.select_next_item(),  -- like <C-n> but feels vim-ish
+          ['<C-k>'] = cmp.mapping.select_prev_item(),  -- like <C-p>
+          ['<C-f>'] = cmp.mapping.scroll_docs(4),      -- page down docs
+          ['<C-b>'] = cmp.mapping.scroll_docs(-4),     -- page up
+          ['<CR>']  = cmp.mapping.confirm({ select = true }),
+          ['<Esc>'] = cmp.mapping.abort(),
+        }),
+      }
+
+      -- nix lsp
+      local capabilities = require('cmp_nvim_lsp').default_capabilities()
+      require('lspconfig').nixd.setup{
+        capabilities = capabilities,
+        settings = {
+          nixd = {
+            formatting = { command = { 'nixfmt' } },
+          },
+        },
+      }
     '';
   };
 
@@ -132,8 +175,9 @@
   wayland.windowManager.hyprland = {
     enable = true;
     settings = {
+
       # on start
-      exec-once = [ "waybar &" "hyprctl setcursor Bibata-Modern-Ice 16" ];
+      exec-once = [ "hyprctl setcursor Bibata-Modern-Ice 16" "waybar &" ];
 
       # default programs
       "$mod" = "SUPER";
@@ -192,7 +236,10 @@
       ];
     };
 
-    extraConfig = "monitor=,preferred,auto,auto";
+    extraConfig = ''
+      monitor=eDP-1,preferred,auto,1.0
+      monitor=,preferred,auto,1.0,mirror,eDP-1
+    '';
   };
 
   programs.waybar = {
@@ -218,7 +265,7 @@
         font-weight: bold;
         border: none;
         border-radius: 4px;
-        font-size: 14px;
+        font-size: 18px;
         min-height: 0;
       }
 
@@ -232,7 +279,7 @@
         color: #ffffff;
       }
 
-      #workspaces button.focused {
+      #workspaces button.active {
         background-color: #64727D;
       }
 
