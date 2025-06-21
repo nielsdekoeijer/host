@@ -1,4 +1,5 @@
-{ system, nixpkgs, disko, home-manager, user, stateVersion, hostName, }:
+{ system, nixpkgs, disko, home-manager, user, stateVersion, hostName
+, diskoConfiguration }:
 let
   # extract pkgs out of the nixpkgs channel
   pkgs = import nixpkgs {
@@ -11,12 +12,12 @@ let
 in lib.nixosSystem {
   inherit system;
 
-  specialArgs = { inherit user stateVersion hostName; };
+  specialArgs = { inherit user stateVersion hostName diskoConfiguration; };
 
   modules = [
     # provide disko for disk management
     disko.nixosModules.disko
-    ./disko.nix
+    diskoConfiguration
 
     # add the Home Manager module,
     {

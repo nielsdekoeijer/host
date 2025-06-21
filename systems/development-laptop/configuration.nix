@@ -1,6 +1,4 @@
 { config, pkgs, user, hostName, stateVersion, lib, ... }: {
-  imports = [ ./disko.nix ];
-
   # propegate the state version
   system.stateVersion = stateVersion;
 
@@ -83,4 +81,7 @@
   services.displayManager.gdm.enable = true;
   programs.hyprland = { enable = true; };
   environment.sessionVariables.NIXOS_OZONE_WL = "1"; # dunno
+
+  # nix ld
+  programs.nix-ld.enable = true;
 }

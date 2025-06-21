@@ -2,4 +2,4 @@
 set -exu 
 
 # enter
-sudo nixos-rebuild switch --flake /etc/nixos/#laptop-work-1
+sudo nixos-rebuild switch --show-trace --flake

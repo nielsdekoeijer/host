@@ -17,27 +17,17 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # standard utils
+    utils = { url = "github:numtide/flake-utils"; };
   };
-  outputs = { self, nixpkgs, home-manager, disko, ... }:
+  outputs = { nixpkgs, home-manager, disko, ... }:
     let
-      # default development laptop system
-      laptop = import ./systems/laptop/system.nix;
-
-      # host system
-      # TODO: this needs to autodetect
-      hostSystem = "x86_64-linux";
+      device =
+        (import ./device.nix) { inherit nixpkgs home-manager disko system; };
+      system = "x86_64-linux";
     in {
-      nixosConfigurations = {
-        # configuration for a laptop / desktop system with development stuff
-        # NOTE: currently, the only system, but we could have more.
-        laptop-work-1 = laptop {
-          user = "niels";
-          stateVersion = "25.11";
-          system = "x86_64-linux";
-          hostName = "nixos-laptop";
-
-          inherit nixpkgs home-manager disko;
-        };
-      };
+      nixosConfigurations.${device.config.networking.hostName} = device;
+      packages.${system}.default = device.config.system.build.toplevel;
     };
 }
