@@ -9,8 +9,14 @@
     vimAlias = true;
 
     # extra things to make things work
-    extraPackages =
-      [ pkgs.ripgrep pkgs.nixfmt-classic pkgs.clang-tools pkgs.nixd ];
+    extraPackages = [
+      pkgs.ripgrep
+      pkgs.nixfmt-classic
+      pkgs.clang-tools
+      pkgs.nixd
+      pkgs.tinymist
+      pkgs.typstyle
+    ];
 
     # plugins
     plugins = [
@@ -27,6 +33,9 @@
       pkgs.vimPlugins.cmp-buffer
       pkgs.vimPlugins.cmp-path
       pkgs.vimPlugins.cmp-nvim-lsp
+
+      # typst note-taking
+      pkgs.vimPlugins.typst-preview-nvim
 
       # basic
       pkgs.vimPlugins.nvim-treesitter.withAllGrammars
@@ -119,8 +128,12 @@
       }
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
+
+      -- extract util
+      local util = require("lspconfig.util")
+
       -- nix lsp
-      require('lspconfig').nixd.setup{
+      require('lspconfig').nixd.setup {
         capabilities = capabilities,
         settings = {
           nixd = {
@@ -129,11 +142,10 @@
         },
       }
 
-      -- nix lsp
-      require('lspconfig').clangd.setup{
+      -- clangd lsp
+      require('lspconfig').clangd.setup {
         capabilities = capabilities,
         root_dir = function(fname)
-          local util = require('lspconfig.util')
           return util.root_pattern('compile_commands.json')(fname)
               or util.find_git_ancestor(fname)
               or util.path.dirname(fname)
@@ -141,6 +153,10 @@
         cmd = { 'clangd', '--background-index' },
       }
 
+      -- typst lsp
+      require('lspconfig').tinymist.setup {
+        settings = { formatterMode = "typstyle" },
+      }
     '';
   };
 }

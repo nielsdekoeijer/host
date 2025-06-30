@@ -1,146 +1,55 @@
 { pkgs, ... }: {
-  programs.neovim = {
+  programs.waybar = {
     enable = true;
 
-    # set vi alias
-    viAlias = true;
+    settings = {
+      mainBar = {
+        position = "top";
+        modules-left = [ "hyprland/workspaces" ];
+        modules-right = [ "network" "cpu" "memory" "battery" "clock" ];
+        tray = { spacing = 10; };
+        network = { format = "{essid} {ipaddr}"; };
+        cpu = { format = "CPU: {usage}%"; };
+        memory = { format = "MEM: {}%"; };
+        battery = { format = "BAT: {capacity}%"; };
+        clock = { format = "{:%I:%M}"; };
+      };
+    };
 
-    # set vim alias
-    vimAlias = true;
-
-    # extra things to make things work
-    extraPackages =
-      [ pkgs.ripgrep pkgs.nixfmt-classic pkgs.clang-tools pkgs.nixd ];
-
-    # plugins
-    plugins = [
-      # colorscheme
-      pkgs.vimPlugins.aurora
-
-      # navigation
-      pkgs.vimPlugins.telescope-nvim
-
-      # lsp stuff
-      pkgs.vimPlugins.nvim-lspconfig
-      pkgs.vimPlugins.nvim-cmp
-      pkgs.vimPlugins.luasnip
-      pkgs.vimPlugins.cmp-buffer
-      pkgs.vimPlugins.cmp-path
-      pkgs.vimPlugins.cmp-nvim-lsp
-
-      # basic
-      pkgs.vimPlugins.nvim-treesitter.withAllGrammars
-
-      # async helper
-      pkgs.vimPlugins.plenary-nvim
-    ];
-
-    # extra lua
-    extraLuaConfig = ''
-      -- color
-      vim.cmd.colorscheme('aurora')
-
-      -- defaults
-      vim.opt.expandtab = true
-      vim.opt.shiftwidth = 4
-      vim.opt.tabstop = 4
-      vim.opt.smarttab = true
-      vim.opt.autoindent = true
-      vim.opt.smartindent = true
-      vim.opt.cindent = true
-      vim.opt.number = true
-      vim.opt.termguicolors = true
-      vim.opt.signcolumn = "yes"
-
-      -- diagnostics
-      vim.diagnostic.config{
-        virtual_text = true,
-        signs        = true,
-        underline    = true,
+    style = ''
+      * { 
+        font-family: "FantasqueSansM Nerd Font"; 
+        font-weight: bold;
+        border: none;
+        border-radius: 4px;
+        font-size: 18px;
+        min-height: 0;
       }
 
-      -- leader
-      vim.g.mapleader = " "
-
-      -- color column
-      vim.opt.colorcolumn = "100"
-      vim.api.nvim_set_hl(0, "ColorColumn", { bg = "#FF0000" })
-
-      -- telescope
-      local builtin = require('telescope.builtin')
-      vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
-      vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
-      vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
-      vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
-
-      -- lsp
-      vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
-      vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>')
-      vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
-      vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
-      vim.keymap.set('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
-      vim.keymap.set('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>')
-      vim.keymap.set('n', '<leader>fm', '<cmd>lua vim.lsp.buf.format()<CR>')
-
-      -- yank
-      vim.keymap.set({'n', 'v'}, 'y', '"+y', { desc = 'Yank to system clipboard' })
-      vim.keymap.set({'n'}, 'Y', '"+Y', { desc = 'Yank line to system clipboard' })
-
-      -- terminal
-      function Terminal()
-          vim.cmd("botright split")
-          vim.cmd("resize 10")
-          vim.cmd("term")
-          vim.cmd("startinsert")
-      end
-      vim.api.nvim_set_keymap('n', '<leader>t', ':lua Terminal()<CR>', { noremap = true, silent = true })
-      vim.api.nvim_set_keymap('t', '<Esc>', '<C-\\><C-n>', { noremap = true, silent = true })
-      vim.api.nvim_create_autocmd("TermOpen", {
-          pattern = "*",
-          callback = function()
-              vim.cmd("startinsert")  -- Automatically enter insert mode
-          end
-      })
-
-      -- completion
-      vim.opt.completeopt = { 'menuone', 'noselect' }
-      local cmp = require('cmp')
-      cmp.setup{
-        snippet = { expand = function(a) require('luasnip').lsp_expand(a.body) end },
-        sources  = { { name = 'nvim_lsp' }, { name = 'path' }, { name = 'buffer' } },
-        mapping = cmp.mapping.preset.insert({
-          ['<C-j>'] = cmp.mapping.select_next_item(),  -- like <C-n> but feels vim-ish
-          ['<C-k>'] = cmp.mapping.select_prev_item(),  -- like <C-p>
-          ['<C-f>'] = cmp.mapping.scroll_docs(4),      -- page down docs
-          ['<C-b>'] = cmp.mapping.scroll_docs(-4),     -- page up
-          ['<C-CR>']  = cmp.mapping.confirm({ select = true }),
-          ['<C-e>'] = cmp.mapping.abort(),
-        }),
-      }
-      local capabilities = require('cmp_nvim_lsp').default_capabilities()
-
-      -- nix lsp
-      require('lspconfig').nixd.setup{
-        capabilities = capabilities,
-        settings = {
-          nixd = {
-            formatting = { command = { 'nixfmt' } },
-          },
-        },
+      window#waybar {
+        background-color: rgba(0, 0, 0, 0.9);
+        color: #ffffff;
       }
 
-      -- nix lsp
-      require('lspconfig').clangd.setup{
-        capabilities = capabilities,
-        root_dir = function(fname)
-          local util = require('lspconfig.util')
-          return util.root_pattern('compile_commands.json')(fname)
-              or util.find_git_ancestor(fname)
-              or util.path.dirname(fname)
-        end,
-        cmd = { 'clangd', '--background-index' },
+      #workspaces button {
+        box-shadow: inset 0 -3px transparent;
+        color: #ffffff;
       }
 
+      #workspaces button.active {
+        background-color: #64727D;
+      }
+
+      #clock,
+      #battery,
+      #cpu,
+      #memory,
+      #network,
+      #tray {
+        padding: 0px 10px;
+        margin: 6px 3px;
+        color: #ffffff;
+      }
     '';
   };
 }

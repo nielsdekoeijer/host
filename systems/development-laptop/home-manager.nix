@@ -14,12 +14,18 @@
 
       # sound
       pkgs.pwvucontrol
+      pkgs.audacity
 
       # helpers
+      pkgs.nvimpager
       pkgs.htop
       pkgs.rsync
       pkgs.jq
+      pkgs.ripgrep
       pkgs.tree
+
+      # typst for note-taking
+      pkgs.typst
 
       # for hyprland
       pkgs.wofi
