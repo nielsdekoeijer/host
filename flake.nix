@@ -37,7 +37,7 @@
       homeConfigurations."home-manager-only" =
         home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs;
-          modules = [ ./systems/home-manager-only/default.nix ];
+          modules = [ ./systems/home-manager-only/home-manager.nix ];
         };
     };
 }
