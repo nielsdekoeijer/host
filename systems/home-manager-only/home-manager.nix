@@ -1,6 +1,9 @@
 { pkgs, user, stateVersion, ... }: {
   # with home manager, we configure user only packages and dotfiles
   home = {
+    # set home dir
+    homeDirectory = "/home/${user}/";
+
     # the user for our system
     username = user;
 
