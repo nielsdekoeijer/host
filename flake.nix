@@ -36,7 +36,7 @@
 
       homeConfigurations."home-manager-only" =
         home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs;
+          pkgs = import nixpkgs { system = "x86_64-darwin"; };
           modules = [ ./systems/home-manager-only/home-manager.nix ];
         };
     };
