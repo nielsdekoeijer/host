@@ -23,11 +23,13 @@
   };
   outputs = { nixpkgs, home-manager, disko, ... }:
     let
-      device =
-        (import ./device.nix) { inherit nixpkgs home-manager disko system; };
-      system = "x86_64-linux";
+      work-laptop-1 =
+        (import ./devices/work-laptop-1/work-laptop-1.nix) { inherit nixpkgs home-manager disko; system = "x86_64-linux"; };
+      home-manager-only-1 =
+        (import ./devices/work-laptop-1/work-laptop-1.nix) { inherit nixpkgs home-manager disko; system = "x86_64-darwin"; };
     in {
-      nixosConfigurations.${device.config.networking.hostName} = device;
-      packages.${system}.default = device.config.system.build.toplevel;
+      nixosConfigurations.${work-laptop-1.config.networking.hostName} = work-laptop-1;
+      packages."x86_64-linux".default = work-laptop-1.config.system.build.toplevel;
+      packages."x86_64-darwin".home-manager-only-1 = home-manager-only-1.config.system.build.toplevel;
     };
 }
