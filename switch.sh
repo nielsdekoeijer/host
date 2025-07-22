@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
-set -exu 
+set -exu
 
-# enter
-sudo nixos-rebuild switch --show-trace --flake
+if [[ -f /etc/NIXOS ]]; then
+  sudo nixos-rebuild switch --show-trace --flake .
+else
+  nix run home-manager/master -- switch --flake .
+fi
