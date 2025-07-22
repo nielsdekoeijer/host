@@ -11,8 +11,8 @@
     # extra things to make things work
     extraPackages = [
       pkgs.ripgrep
-      pkgs.nixfmt-classic
       pkgs.clang-tools
+      pkgs.nixfmt-classic
       pkgs.nixd
       pkgs.tinymist
       pkgs.typstyle
@@ -140,6 +140,16 @@
             formatting = { command = { 'nixfmt' } },
           },
         },
+      }
+
+      -- zig lsp
+      require('lspconfig').zls.setup {
+        capabilities = capabilities,
+      }
+
+      -- rust-analyzer
+      require('lspconfig').rust_analyzer.setup {
+        capabilities = capabilities,
       }
 
       -- clangd lsp
