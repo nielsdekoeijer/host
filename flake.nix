@@ -32,7 +32,7 @@
       packages."x86_64-linux".default = work-laptop-1.config.system.build.toplevel;
       homeConfigurations."home-manager-only-1" = home-manager.lib.homeManagerConfiguration {
   pkgs = nixpkgs;
-  modules = [ ./devices/work-laptop-1/home-manager-only.nix ];
+  modules = [ ./devices/home-manager-only-1/home-manager-only-1.nix ];
 };
       packages."x86_64-darwin".homeConfigurations = {
         "home-manager-only-1" = home-manager-only-1;
