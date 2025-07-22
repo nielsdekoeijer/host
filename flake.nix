@@ -30,6 +30,10 @@
     in {
       nixosConfigurations.${work-laptop-1.config.networking.hostName} = work-laptop-1;
       packages."x86_64-linux".default = work-laptop-1.config.system.build.toplevel;
+      homeConfigurations."home-manager-only-1" = home-manager.lib.homeManagerConfiguration {
+  inherit nixpkgs;
+  modules = [ ./devices/work-laptop-1/home-manager-only.nix ];
+};
       packages."x86_64-darwin".homeConfigurations = {
         "home-manager-only-1" = home-manager-only-1;
       };
