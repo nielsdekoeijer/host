@@ -2,7 +2,7 @@
   # with home manager, we configure user only packages and dotfiles
   home = {
     # set home dir
-    homeDirectory = "/home/${user}/";
+    homeDirectory = "/Users/${user}/";
 
     # the user for our system
     username = user;
