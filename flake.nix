@@ -39,7 +39,7 @@
           pkgs = import nixpkgs { system = "x86_64-darwin"; };
           modules = [ ./systems/home-manager-only/home-manager.nix ];
           extraSpecialArgs = {
-              user = "niels"; 
+              user = "demomaclr"; 
               stateVersion = "25.11"; 
             };
         };
