@@ -11,16 +11,16 @@
 let
   pkgs = import nixpkgs { inherit system; };
 in
-  home-manager.lib.homeManagerConfiguration {
-    inherit pkgs;
+home-manager.lib.homeManagerConfiguration {
+  inherit pkgs;
 
-    modules = [
-      {
-        home.username = user;
-        home.homeDirectory = "/Users/${user}";
-        home.stateVersion = stateVersion;
-      }
-      ../../systems/home-manager-only/home-manager.nix
-    ];
-  }
+  modules = [
+    {
+      home.username = user;
+      home.homeDirectory = "/Users/${user}";
+      home.stateVersion = stateVersion;
+    }
+    ../../systems/home-manager-only/home-manager.nix
+  ];
+}
 
