@@ -27,22 +27,17 @@
         inherit nixpkgs home-manager disko;
         system = "x86_64-linux";
       };
-      home-manager-only-1 = (import ./devices/work-laptop-1/work-laptop-1.nix) {
-        inherit nixpkgs home-manager disko;
-        system = "x86_64-darwin";
-      };
     in {
       nixosConfigurations.${work-laptop-1.config.networking.hostName} =
         work-laptop-1;
+
       packages."x86_64-linux".default =
         work-laptop-1.config.system.build.toplevel;
-      homeConfigurations."home-manager-only-1" =
+
+      homeConfigurations."home-manager-only" =
         home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs;
           modules = [ ./systems/home-manager-only/home-manager-only.nix ];
         };
-      packages."x86_64-darwin".homeConfigurations = {
-        "home-manager-only-1" = home-manager-only-1;
-      };
     };
 }
