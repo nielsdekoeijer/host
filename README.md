@@ -9,7 +9,15 @@ sudo -i
 # use disko to partition our disk!
 nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- \
         --mode destroy,format,mount $DISKO_PATH_HERE
+
+# move to /mnt/etc/nixos/
+mv . /mnt/etc/nixos
+
+# install
 nixos-install --flake $FLAKE_PATH_HERE
+
+# change passwd
+nixos-enter --root /mnt/ -c "passwd niels"
 ```
 
 ## Sources:
