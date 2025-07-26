@@ -27,3 +27,5 @@ nixos-enter --root /mnt/ -c "passwd niels"
 * I maintain about 3 systems, a personal laptop, a work laptop and a shell config. Selecting which
     one I want to install is not easy with this setup, I'm always just randomly changing the 
     files. Works well but is akward. 
+* I need to be able to overload the hyprctl for multi monitor
+* Waybar for multi monitor

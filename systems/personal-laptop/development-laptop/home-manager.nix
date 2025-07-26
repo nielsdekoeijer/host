@@ -64,9 +64,4 @@
     ../common/hyprland/hyprland.nix
   ];
 
-  wayland.windowManager.hyprland.extraConfig = pkgs.lib.mkForce ''
-    monitor=eDP-1,preferred,0x0,1
-    monitor=DP-12,1920x1080@144,auto,1
-  '';
-
 }
