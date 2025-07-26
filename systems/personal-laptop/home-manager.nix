@@ -1,9 +1,6 @@
 { pkgs, user, stateVersion, ... }: {
   # with home manager, we configure user only packages and dotfiles
   home = {
-    # set home dir
-    homeDirectory = "/home/${user}/";
-
     # the user for our system
     username = user;
 
@@ -15,6 +12,10 @@
       # formatters
       pkgs.nixfmt-classic
 
+      # sound
+      pkgs.pwvucontrol
+      pkgs.audacity
+
       # helpers
       pkgs.nvimpager
       pkgs.htop
@@ -25,6 +26,15 @@
 
       # typst for note-taking
       pkgs.typst
+
+      # for hyprland
+      pkgs.wofi
+      pkgs.hyprshot
+      pkgs.bibata-cursors
+
+      # font for everything
+      pkgs.nerd-fonts.fantasque-sans-mono
+
     ];
 
     # set variables
@@ -42,10 +52,16 @@
     userEmail = "hidden@email.com";
   };
 
+  # firefox settings
+  programs.firefox.enable = true;
+
   # import common
   imports = [
     ../common/nvim/nvim.nix
+    ../common/kitty/kitty.nix
     ../common/bash/bash.nix
+    ../common/waybar/waybar.nix
+    ../common/hyprland/hyprland.nix
   ];
 
 }
