@@ -15,6 +15,10 @@
   networking.networkmanager.enable = true;
   networking.wireless.enable = false;
 
+  # enable bluetooth
+  hardware.bluetooth.enable = true;
+  services.blueman.enable = true;
+
   # NOTE: needs dbus for network manager to work! So enable that
   services.dbus.enable = true;
 
