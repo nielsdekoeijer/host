@@ -32,7 +32,7 @@
       # bindings for hyprland
       bind = [
         "$mainMod, Q, exec, $terminal"
-        "$mainMod, C, exec, killactive"
+        "$mainMod, C, killactive"
         "$mainMod, M, exec, exit"
         "$mainMod, R, exec, $menu"
         "$mainMod, S, exec, togglesplit"

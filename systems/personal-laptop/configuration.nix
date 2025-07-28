@@ -37,6 +37,15 @@
     extraGroups = [ "wheel" "video" "input" "seat" "docker" ];
   };
 
+  # TODO: why not in homemanger?
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
+    localNetworkGameTransfers.openFirewall = true;
+    # extraArgs = "-no-cef-sandbox -nointro";
+  };
+
   # configure the bootloader
   # TODO: I just copy pasted this, I dont know what any of it means yet
   boot = {

@@ -35,6 +35,11 @@
       # font for everything
       pkgs.nerd-fonts.fantasque-sans-mono
 
+      # discord
+      pkgs.discord
+      
+      # obsidian
+      pkgs.obsidian
     ];
 
     # set variables
@@ -65,7 +70,7 @@
   ];
 
   wayland.windowManager.hyprland.extraConfig = pkgs.lib.mkForce ''
-    monitor=eDP-1,preferred,0x0,1
+    monitor=eDP-1,preferred,0x0,2
     monitor=DP-12,1920x1080@144,auto,1
   '';
 
