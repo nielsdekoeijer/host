@@ -28,10 +28,11 @@
         system = "x86_64-linux";
       };
 
-      personal-laptop-1 = (import ./devices/personal-laptop-1/personal-laptop-1.nix) {
-        inherit nixpkgs home-manager disko;
-        system = "x86_64-linux";
-      };
+      personal-laptop-1 =
+        (import ./devices/personal-laptop-1/personal-laptop-1.nix) {
+          inherit nixpkgs home-manager disko;
+          system = "x86_64-linux";
+        };
 
     in {
       # nixosConfigurations.${work-laptop-1.config.networking.hostName} =
@@ -48,9 +49,9 @@
           pkgs = import nixpkgs { system = "x86_64-darwin"; };
           modules = [ ./systems/home-manager-only/home-manager.nix ];
           extraSpecialArgs = {
-              user = "demomaclr"; 
-              stateVersion = "25.11"; 
-            };
+            user = "demomaclr";
+            stateVersion = "25.11";
+          };
         };
 
       # TODO: rework this
@@ -59,9 +60,9 @@
           pkgs = import nixpkgs { system = "x86_64-linux"; };
           modules = [ ./systems/home-manager-only/home-manager.nix ];
           extraSpecialArgs = {
-              user = "niels"; 
-              stateVersion = "25.11"; 
-            };
+            user = "niels";
+            stateVersion = "25.11";
+          };
         };
     };
 }

@@ -37,7 +37,7 @@
 
       # discord
       pkgs.discord
-      
+
       # obsidian
       pkgs.obsidian
     ];
