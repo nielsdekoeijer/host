@@ -11,7 +11,7 @@
     # extra things to make things work
     extraPackages = [
       pkgs.ripgrep
-      pkgs.clang-tools
+      pkgs.llvmPackages_21.clang-tools
       pkgs.nixfmt-classic
       pkgs.nixd
       pkgs.tinymist

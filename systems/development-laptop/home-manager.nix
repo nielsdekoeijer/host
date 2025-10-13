@@ -15,6 +15,7 @@
       # sound
       pkgs.pwvucontrol
       pkgs.audacity
+      pkgs.qpwgraph
 
       # helpers
       pkgs.nvimpager
@@ -23,6 +24,10 @@
       pkgs.jq
       pkgs.ripgrep
       pkgs.tree
+      pkgs.unzip
+      pkgs.zip
+      pkgs.bat
+      pkgs.kdePackages.okular
 
       # typst for note-taking
       pkgs.typst

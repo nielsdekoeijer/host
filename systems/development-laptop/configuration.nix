@@ -19,6 +19,9 @@
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
 
+  # devport
+  networking.firewall.allowedTCPPorts = [ 8000 ];
+
   # NOTE: needs dbus for network manager to work! So enable that
   services.dbus.enable = true;
 
@@ -36,6 +39,12 @@
     initialPassword = " ";
     extraGroups = [ "wheel" "video" "input" "seat" "docker" ];
   };
+
+  # adb/fastboot binaries
+  environment.systemPackages = [ pkgs.android-tools ];
+
+  # sets up permissive udev rules + an “adbusers” group
+  programs.adb.enable = true;
 
   # configure the bootloader
   # TODO: I just copy pasted this, I dont know what any of it means yet
