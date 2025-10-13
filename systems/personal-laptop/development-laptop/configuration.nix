@@ -17,6 +17,9 @@
 
   # enable bluetooth
   hardware.bluetooth.enable = true;
+  hardware.bluetooth.settings = {
+    General = { Enable = "Source,Sink,Media,Socket"; };
+  };
   services.blueman.enable = true;
 
   # NOTE: needs dbus for network manager to work! So enable that

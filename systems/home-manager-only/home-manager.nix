@@ -43,9 +43,6 @@
   };
 
   # import common
-  imports = [
-    ../common/nvim/nvim.nix
-    ../common/bash/bash.nix
-  ];
+  imports = [ ../common/nvim/nvim.nix ../common/bash/bash.nix ];
 
 }
