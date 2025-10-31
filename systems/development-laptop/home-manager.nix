@@ -40,6 +40,10 @@
       # font for everything
       pkgs.nerd-fonts.fantasque-sans-mono
 
+      # perf
+      pkgs.linuxPackages_latest.perf
+      pkgs.croc
+
     ];
 
     # set variables

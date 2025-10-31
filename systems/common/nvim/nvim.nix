@@ -91,6 +91,21 @@
       vim.keymap.set('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>')
       vim.keymap.set('n', '<leader>fm', '<cmd>lua vim.lsp.buf.format()<CR>')
 
+      -- journal
+      vim.keymap.set("n", "<leader>d", function()
+        local today = os.date("%Y-%m-%d")
+        local journal_path = vim.fn.expand("~/scratch/daily/" .. today .. ".md")
+      
+        vim.cmd("edit " .. journal_path)
+      
+        if vim.fn.line('$') == 1 and vim.fn.getline(1) == "" then
+          local title = "# " .. today
+          local initial_content = { title, "" } 
+          vim.api.nvim_buf_set_lines(0, 0, -1, false, initial_content)
+          vim.api.nvim_win_set_cursor(0, { 2, 0 })
+        end
+      end, { desc = "Open daily journal 📔" })
+
       -- yank
       vim.keymap.set({'n', 'v'}, 'y', '"+y', { desc = 'Yank to system clipboard' })
       vim.keymap.set({'n'}, 'Y', '"+Y', { desc = 'Yank line to system clipboard' })
@@ -160,7 +175,10 @@
               or util.find_git_ancestor(fname)
               or util.path.dirname(fname)
         end,
-        cmd = { 'clangd', '--background-index' },
+        cmd = { 'clangd', '--background-index', '--clang-tidy' },
+        init_options = {
+            fallbackFlags = { "" },
+        },
       }
 
       -- typst lsp

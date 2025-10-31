@@ -35,6 +35,12 @@
       # font for everything
       pkgs.nerd-fonts.fantasque-sans-mono
 
+      # man pages
+      pkgs.man-db
+      pkgs.linux.manpages
+      pkgs.man-pages
+      pkgs.man-pages-posix
+
     ];
 
     # set variables

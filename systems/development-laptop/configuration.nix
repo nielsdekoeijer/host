@@ -5,6 +5,23 @@
   # propegate the host name
   networking.hostName = hostName;
 
+  # compatability
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      stdenv.cc.cc
+    ];
+  };
+
+  # docs
+  documentation.dev.enable = true;
+
+  # direnv
+  programs.direnv.enable = true; 
+
+  # bin bash
+  services.envfs.enable = true;
+
   # enable flakes and nix-command, you always want this
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
@@ -20,7 +37,7 @@
   services.blueman.enable = true;
 
   # devport
-  networking.firewall.allowedTCPPorts = [ 8000 ];
+  networking.firewall.allowedTCPPorts = [ 8000 9190 ];
 
   # NOTE: needs dbus for network manager to work! So enable that
   services.dbus.enable = true;
@@ -94,7 +111,4 @@
   services.displayManager.gdm.enable = true;
   programs.hyprland = { enable = true; };
   environment.sessionVariables.NIXOS_OZONE_WL = "1"; # dunno
-
-  # nix ld
-  programs.nix-ld.enable = true;
 }
