@@ -21,8 +21,8 @@
         font-family: "FantasqueSansM Nerd Font"; 
         font-weight: bold;
         border: none;
-        border-radius: 4px;
-        font-size: 18px;
+        border-radius: 0;
+        font-size: 16px;
         min-height: 0;
       }
 

@@ -1,23 +1,32 @@
-{ pkgs, ... }: {
+{ pkgs, ... }: 
+let
+    wallpaper = ./wallpaper.jpg;
+in
+{
   wayland.windowManager.hyprland = {
     enable = true;
     settings = {
 
       # on start
-      exec-once = [ "hyprctl setcursor Bibata-Modern-Ice 16" "waybar &" ];
+      exec-once = [ 
+          "hyprctl setcursor Bibata-Modern-Ice 16" 
+          "waybar &" 
+          "swww-daemon &"
+          "swww img ${wallpaper}"
+      ];
 
       # default programs
       "$mod" = "SUPER";
-      "$terminal" = "kitty";
+      "$terminal" = "ghostty";
       "$menu" = "wofi --show drun";
 
       # set super + looks
       general = {
         "$mainMod" = "$mod";
         layout = "dwindle";
-        gaps_in = 8;
-        gaps_out = 8;
-        border_size = 3;
+        gaps_in = 5;
+        gaps_out = 10;
+        border_size = 1;
       };
 
       # no rounding
@@ -27,6 +36,28 @@
       misc = {
         "force_default_wallpaper" = 0;
         "disable_hyprland_logo" = "true";
+        vrr = 1;
+      };
+
+      animations = {
+        enabled = true;
+
+        # define a snappy bezier curve (starts fast, eases out)
+        bezier = [ "snappy, 0.16, 1, 0.3, 1" ]; 
+
+        # apply the curve to different animations with a fast duration
+        animation = [
+          "windows, 1, 3, snappy, gnomed"
+          "windowsMove, 1, 3, snappy, gnomed"
+          "workspaces, 1, 3, snappy, fade"
+          "specialWorkspace, 1, 3, snappy, fade"
+
+          "border, 1, 3, snappy"
+          "borderangle, 1, 3, snappy"
+
+          "fadeIn, 1, 3, snappy"
+          "fadeOut, 1, 3, snappy"
+        ];
       };
 
       # bindings for hyprland
