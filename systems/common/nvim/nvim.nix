@@ -47,6 +47,7 @@
     # extra lua
     extraLuaConfig = ''
       -- color
+      vim.g.aurora_transparent = 1
       vim.cmd.colorscheme('aurora')
 
       -- defaults
@@ -72,8 +73,8 @@
       vim.g.mapleader = " "
 
       -- color column
-      vim.opt.colorcolumn = "100"
-      vim.api.nvim_set_hl(0, "ColorColumn", { bg = "#FF0000" })
+      vim.opt.colorcolumn = "120"
+      vim.api.nvim_set_hl(0, "ColorColumn", { bg = "#ff5874" })
 
       -- telescope
       local builtin = require('telescope.builtin')
@@ -148,27 +149,27 @@
       local util = require("lspconfig.util")
 
       -- nix lsp
-      require('lspconfig').nixd.setup {
+      vim.lsp.config('nixd', {
         capabilities = capabilities,
         settings = {
           nixd = {
             formatting = { command = { 'nixfmt' } },
           },
         },
-      }
+      })
 
       -- zig lsp
-      require('lspconfig').zls.setup {
+      vim.lsp.config('zls', {
         capabilities = capabilities,
-      }
+      })
 
       -- rust-analyzer
-      require('lspconfig').rust_analyzer.setup {
+      vim.lsp.config('rust_analyzer', {
         capabilities = capabilities,
-      }
+      })
 
       -- clangd lsp
-      require('lspconfig').clangd.setup {
+      vim.lsp.config('clangd', {
         capabilities = capabilities,
         root_dir = function(fname)
           return util.root_pattern('compile_commands.json')(fname)
@@ -179,12 +180,12 @@
         init_options = {
             fallbackFlags = { "" },
         },
-      }
+      })
 
       -- typst lsp
-      require('lspconfig').tinymist.setup {
+      vim.lsp.config('tinymist', {
         settings = { formatterMode = "typstyle" },
-      }
+      })
     '';
   };
 }

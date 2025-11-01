@@ -82,6 +82,11 @@ in
         "$mainMod, 8, workspace, 8"
         "$mainMod, 9, workspace, 9"
 
+        "$mainMod SHIFT, H, swapwindow, l"
+        "$mainMod SHIFT, L, swapwindow, r"
+        "$mainMod SHIFT, K, swapwindow, u"
+        "$mainMod SHIFT, J, swapwindow, d"
+
         "$mainMod SHIFT, 1, movetoworkspace, 1"
         "$mainMod SHIFT, 2, movetoworkspace, 2"
         "$mainMod SHIFT, 3, movetoworkspace, 3"
