@@ -4,7 +4,7 @@
 (import ../../systems/personal-laptop/system.nix) {
   inherit nixpkgs home-manager disko system;
   user = "niels";
-  hostName = "nixos-laptop";
+  hostName = "personal-laptop";
   stateVersion = "25.11";
   diskoConfiguration = { ... }: import ./disko.nix;
 }

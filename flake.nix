@@ -38,8 +38,8 @@
       nixosConfigurations.${work-laptop-1.config.networking.hostName} =
         work-laptop-1;
 
-      # nixosConfigurations.${personal-laptop-1.config.networking.hostName} =
-      #   personal-laptop-1;
+      nixosConfigurations.${personal-laptop-1.config.networking.hostName} =
+        personal-laptop-1;
 
       packages."x86_64-linux".default = work-laptop-1;
 

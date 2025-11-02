@@ -100,8 +100,9 @@ in
     };
 
     extraConfig = ''
-      monitor=eDP-1,preferred,auto,1.0
-      monitor=,preferred,auto,1.0,mirror,eDP-1
+      # monitor=eDP-1,preferred,auto,1.0
+      # monitor=,preferred,auto,1.0,mirror,eDP-1
+      monitor=,preferred,auto,1
     '';
   };
 }

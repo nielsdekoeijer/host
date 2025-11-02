@@ -34,7 +34,7 @@
       pkgs.typst
 
       # for hyprland
-      pkgs.wofi
+      # pkgs.wofi
       pkgs.hyprshot
       pkgs.bibata-cursors
 
@@ -66,6 +66,7 @@
     ../common/waybar/waybar.nix
     ../common/ghostty/ghostty.nix
     ../common/git/git.nix
+    ../common/wofi/wofi.nix
   ];
 
 }
