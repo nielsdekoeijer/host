@@ -159,9 +159,10 @@
       })
 
       -- zig lsp
-      vim.lsp.config('zls', {
+      vim.lsp.config.zls = {
         capabilities = capabilities,
-      })
+      }
+      vim.lsp.enable("zls")
 
       -- rust-analyzer
       vim.lsp.config('rust_analyzer', {

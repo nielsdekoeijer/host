@@ -11,7 +11,6 @@
         margin-right = 10;
         modules-left = [ "hyprland/workspaces" ];
         modules-right = [ "network" "cpu" "memory" "battery" "clock" "tray" ];
-        
         "hyprland/workspaces" = {
           format = "{name}";
         };
