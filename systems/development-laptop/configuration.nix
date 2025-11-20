@@ -8,16 +8,14 @@
   # compatability
   programs.nix-ld = {
     enable = true;
-    libraries = with pkgs; [
-      stdenv.cc.cc
-    ];
+    libraries = with pkgs; [ stdenv.cc.cc ];
   };
 
   # docs
   documentation.dev.enable = true;
 
   # direnv
-  programs.direnv.enable = true; 
+  programs.direnv.enable = true;
 
   # bin bash
   services.envfs.enable = true;

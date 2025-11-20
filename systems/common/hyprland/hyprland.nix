@@ -1,18 +1,16 @@
-{ pkgs, ... }: 
-let
-    wallpaper = ./wallpaper.jpg;
-in
-{
+{ pkgs, ... }:
+let wallpaper = ./wallpaper.jpg;
+in {
   wayland.windowManager.hyprland = {
     enable = true;
     settings = {
 
       # on start
-      exec-once = [ 
-          "hyprctl setcursor Bibata-Modern-Ice 16" 
-          "waybar &" 
-          "swww-daemon &"
-          "swww img ${wallpaper}"
+      exec-once = [
+        "hyprctl setcursor Bibata-Modern-Ice 16"
+        "waybar &"
+        "swww-daemon &"
+        "swww img ${wallpaper}"
       ];
 
       # default programs
@@ -43,7 +41,7 @@ in
         enabled = true;
 
         # define a snappy bezier curve (starts fast, eases out)
-        bezier = [ "snappy, 0.16, 1, 0.3, 1" ]; 
+        bezier = [ "snappy, 0.16, 1, 0.3, 1" ];
 
         # apply the curve to different animations with a fast duration
         animation = [

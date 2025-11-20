@@ -30,6 +30,9 @@
       pkgs.kdePackages.okular
       pkgs.swww
 
+      # guis
+      pkgs.networkmanagerapplet
+
       # typst for note-taking
       pkgs.typst
 

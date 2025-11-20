@@ -96,9 +96,9 @@
       vim.keymap.set("n", "<leader>d", function()
         local today = os.date("%Y-%m-%d")
         local journal_path = vim.fn.expand("~/scratch/daily/" .. today .. ".md")
-      
+
         vim.cmd("edit " .. journal_path)
-      
+
         if vim.fn.line('$') == 1 and vim.fn.getline(1) == "" then
           local title = "# " .. today
           local initial_content = { title, "" } 

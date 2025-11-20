@@ -8,6 +8,8 @@
       font-size = 8;
       background-opacity = 0.95;
       theme = "aurora";
+      confirm-close-surface = "false";
+      working-directory = "home";
     };
     themes = {
       aurora = {
@@ -16,8 +18,6 @@
         cursor-color = "ddd0f4";
         selection-background = "3f4060";
         selection-foreground = "e7d3fb";
-        working-directory = "home";
-        confirm-close-surface = "false";
 
         palette = [
           "0=#070510" # Black

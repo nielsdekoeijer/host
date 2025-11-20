@@ -5,21 +5,27 @@
     settings = {
       mainBar = {
         position = "top";
-        # magin = "10 10";
+        magin = "10 10";
         margin-top = 10;
         margin-left = 10;
         margin-right = 10;
         modules-left = [ "hyprland/workspaces" ];
         modules-right = [ "network" "cpu" "memory" "battery" "clock" "tray" ];
-        "hyprland/workspaces" = {
-          format = "{name}";
-        };
+        "hyprland/workspaces" = { format = "{name}"; };
         tray = { spacing = 10; };
-        network = { format = "󰤥  {essid}"; }; 
-        cpu = { format = "  {usage}%"; };    
-        memory = { format = "󰍛  {}%"; };      
-        battery = { format = "  {capacity}%"; }; 
-        clock = { format = "  {:%I:%M %p}"; }; 
+        network = {
+          format = "󰤥  {essid}";
+          format-disconnected = "󰤮  Disconnected";
+          tooltip-format = "{ifname} via {gwaddr} ";
+          tooltip-format-wifi = "{essid} ({signalStrength}%) ";
+          tooltip-format-ethernet = "{ifname} ";
+          tooltip-format-disconnected = "Disconnected";
+          on-click = "nm-connection-editor";
+        };
+        cpu = { format = "  {usage}%"; };
+        memory = { format = "󰍛  {}%"; };
+        battery = { format = "  {capacity}%"; };
+        clock = { format = "  {:%I:%M %p}"; };
       };
     };
 
@@ -53,7 +59,7 @@
         background-color: #3f4060; /* Selection background */
         color: #e7d3fb; /* Bright White */
       }
-      
+
       #workspaces button:hover {
         background-color: #3f4060;
       }
@@ -64,6 +70,7 @@
       #cpu,
       #memory,
       #network,
+      #pulseaudio,
       #tray {
         padding: 0px 10px;
         margin: 6px 3px;
@@ -77,7 +84,7 @@
       #battery {
         color: #addb67; /* Green */
       }
-      
+
       #battery.warning, #battery.critical, #battery.danger {
         color: #ff5874; /* Red */
       }
@@ -93,7 +100,7 @@
       #network {
         color: #54CED6; /* Cyan */
       }
-      
+
       #network.disconnected {
         color: #645775; /* Dim */
       }
