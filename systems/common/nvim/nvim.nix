@@ -162,26 +162,25 @@
       vim.lsp.config.zls = {
         capabilities = capabilities,
       }
-      vim.lsp.enable("zls")
+      vim.lsp.enable('zls', true)
 
       -- rust-analyzer
       vim.lsp.config('rust_analyzer', {
         capabilities = capabilities,
       })
 
-      -- clangd lsp
-      vim.lsp.config('clangd', {
-        capabilities = capabilities,
-        root_dir = function(fname)
-          return util.root_pattern('compile_commands.json')(fname)
-              or util.find_git_ancestor(fname)
-              or util.path.dirname(fname)
-        end,
-        cmd = { 'clangd', '--background-index', '--clang-tidy' },
-        init_options = {
-            fallbackFlags = { "" },
+      --- clangd
+      vim.lsp.config.clangd = {
+        cmd = {
+          'clangd',
+          '--clang-tidy',
+          '--background-index',
+          '--offset-encoding=utf-8',
         },
-      })
+        root_markers = { '.clangd', 'compile_commands.json' },
+        filetypes = { 'c', 'cpp' },
+      }
+      vim.lsp.enable('clangd', true)
 
       -- typst lsp
       vim.lsp.config('tinymist', {

@@ -5,6 +5,7 @@
     enableBashIntegration = true;
     settings = {
       font-family = "FantasqueSansM Nerd Font";
+      font-size = 8;
       background-opacity = 0.95;
       theme = "aurora";
     };
