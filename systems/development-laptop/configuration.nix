@@ -49,10 +49,13 @@
 
   # additional settings for user
   # TODO: should be in home-manager?
+  users.groups.${user}.gid = 1000;
   users.users.${user} = {
     isNormalUser = true;
     initialPassword = " ";
-    extraGroups = [ "wheel" "video" "input" "seat" "docker" ];
+    extraGroups = [ "wheel" "video" "input" "seat" "docker" "users" ];
+    group = "${user}";
+    uid = 1000;
   };
 
   # adb/fastboot binaries
