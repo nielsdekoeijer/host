@@ -13,7 +13,7 @@
 
   # enable network manager, disable wpa_supplicant
   networking.networkmanager.enable = true;
-  networking.wireless.enable = false;
+  # networking.wireless.enable = true;
 
   # enable bluetooth
   hardware.bluetooth.enable = true;

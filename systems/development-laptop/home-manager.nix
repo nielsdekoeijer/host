@@ -37,12 +37,14 @@
       pkgs.typst
 
       # for hyprland
-      # pkgs.wofi
       pkgs.hyprshot
       pkgs.bibata-cursors
 
       # font for everything
       pkgs.nerd-fonts.fantasque-sans-mono
+
+      # ai
+      pkgs.gemini-cli
 
       # perf
       pkgs.perf
