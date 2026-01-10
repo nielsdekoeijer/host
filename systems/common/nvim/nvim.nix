@@ -168,6 +168,7 @@
       vim.lsp.config('rust_analyzer', {
         capabilities = capabilities,
       })
+      vim.lsp.enable('rust_analyzer', true)
 
       --- clangd
       vim.lsp.config.clangd = {
