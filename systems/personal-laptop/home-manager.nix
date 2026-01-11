@@ -67,11 +67,16 @@
     ../common/bash/bash.nix
     ../common/waybar/waybar.nix
     ../common/hyprland/hyprland.nix
+    ../common/ghostty/ghostty.nix
+    ../common/wofi/wofi.nix
   ];
 
   wayland.windowManager.hyprland.extraConfig = pkgs.lib.mkForce ''
-    monitor=eDP-1,preferred,0x0,2
-    monitor=DP-12,1920x1080@144,auto,1
+    monitor=eDP-2,preferred,0x0,1.6
+    monitor=eDP-4,1920x1080@165.00,auto,1
+    misc {
+        vrr = 0
+    }
   '';
 
 }
