@@ -37,4 +37,13 @@
         | ${pkgs.gawk}/bin/awk -F"\;" '/^=/ {print $4, $8}'
     '')
   ];
+
+  # ssh
+  services.openssh = {
+    enable = true;
+    settings = {
+      PasswordAuthentication = true;
+      PermitRootLogin = "no";
+    };
+  };
 }

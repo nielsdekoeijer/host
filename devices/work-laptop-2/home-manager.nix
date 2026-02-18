@@ -22,4 +22,10 @@
       pkgs.croc
     ];
   };
+
+  # monitor at work
+  wayland.windowManager.hyprland.extraConfig = pkgs.lib.mkForce ''
+    monitor=eDP-1,preferred,auto,1
+    monitor=DP-8,preferred,auto,1
+  '';
 }
