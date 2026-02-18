@@ -36,6 +36,16 @@
         homeManagerPath = ./devices/work-laptop-1/home-manager.nix;
       };
 
+      work-laptop-2 = mkSystem {
+        system = "x86_64-linux";
+        hostName = "work-laptop-2";
+        user = "niels";
+        stateVersion = "25.11";
+        diskoConfiguration = { ... }: import ./devices/work-laptop-2/disko.nix;
+        configurationPath = ./devices/work-laptop-2/configuration.nix;
+        homeManagerPath = ./devices/work-laptop-2/home-manager.nix;
+      };
+
       personal-laptop = mkSystem {
         system = "x86_64-linux";
         hostName = "personal-laptop";
@@ -49,6 +59,7 @@
     in
     {
       nixosConfigurations.work-laptop = work-laptop;
+      nixosConfigurations.work-laptop-2 = work-laptop-2;
       nixosConfigurations.personal-laptop = personal-laptop;
 
       nixosConfigurations.installer = mkISO {
