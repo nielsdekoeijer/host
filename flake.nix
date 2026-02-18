@@ -13,9 +13,6 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    utils = {
-      url = "github:numtide/flake-utils";
-    };
   };
 
   outputs =
@@ -61,10 +58,11 @@
 
       packages."x86_64-linux" = {
         default = work-laptop;
-        iso = (mkISO {
-          system = "x86_64-linux";
-          extraModules = [ ./common/iso/installer.nix ];
-        }).config.system.build.isoImage;
+        iso =
+          (mkISO {
+            system = "x86_64-linux";
+            extraModules = [ ./common/iso/installer.nix ];
+          }).config.system.build.isoImage;
       };
     };
 }
