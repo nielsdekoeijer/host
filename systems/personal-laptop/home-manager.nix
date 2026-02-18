@@ -62,12 +62,12 @@
 
   # import common
   imports = [
-    ../common/nvim/nvim.nix
-    ../common/bash/bash.nix
-    ../common/waybar/waybar.nix
-    ../common/hyprland/hyprland.nix
-    ../common/ghostty/ghostty.nix
-    ../common/wofi/wofi.nix
+    ../../common/nvim/nvim.nix
+    ../../common/bash/bash.nix
+    ../../common/waybar/waybar.nix
+    ../../common/hyprland/hyprland.nix
+    ../../common/ghostty/ghostty.nix
+    ../../common/wofi/wofi.nix
   ];
 
   wayland.windowManager.hyprland.extraConfig = pkgs.lib.mkForce ''

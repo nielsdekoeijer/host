@@ -69,13 +69,13 @@
 
   # import common
   imports = [
-    ../common/nvim/nvim.nix
-    ../common/bash/bash.nix
-    ../common/hyprland/hyprland.nix
-    ../common/waybar/waybar.nix
-    ../common/ghostty/ghostty.nix
-    ../common/git/git.nix
-    ../common/wofi/wofi.nix
+    ../../common/nvim/nvim.nix
+    ../../common/bash/bash.nix
+    ../../common/hyprland/hyprland.nix
+    ../../common/waybar/waybar.nix
+    ../../common/ghostty/ghostty.nix
+    ../../common/git/git.nix
+    ../../common/wofi/wofi.nix
   ];
 
 }
