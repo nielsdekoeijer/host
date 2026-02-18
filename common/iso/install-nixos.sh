@@ -2,88 +2,66 @@
 set -euo pipefail
 
 FLAKE_REPO="https://github.com/nielsdekoeijer/host"
-
-echo ""
-echo "  NixOS Installer"
-echo "  ════════════════"
-echo ""
-
-# ── Clone ────────────────────────────────────────────────────────
 WORK_DIR="/tmp/nixos-config"
+
+echo ""
+echo "NixOS Installer"
+echo ""
+
+# clone
 if [[ -d "$WORK_DIR" ]]; then
-    echo "[*] Repo already at $WORK_DIR, pulling latest..."
     git -C "$WORK_DIR" pull
 else
-    echo "[*] Cloning $FLAKE_REPO..."
     git clone "$FLAKE_REPO" "$WORK_DIR"
 fi
-echo ""
 
-# ── Pick device ──────────────────────────────────────────────────
-echo "[*] Available devices:"
-echo ""
-for d in "$WORK_DIR"/devices/*/; do
-    echo "    - $(basename "$d")"
-done
-echo ""
-read -rp "Which device? > " DEVICE
+# device name
+read -rp "Device name (e.g. work-laptop-2): " DEVICE
+[[ -z "$DEVICE" ]] && echo "Empty name." && exit 1
 
-if [[ ! -d "$WORK_DIR/devices/$DEVICE" ]]; then
-    echo "[!] devices/$DEVICE does not exist. Aborting."
-    exit 1
+DEVICE_DIR="$WORK_DIR/devices/$DEVICE"
+if [[ -d "$DEVICE_DIR" ]]; then
+    echo "Using existing devices/$DEVICE"
+else
+    cp -r "$WORK_DIR/devices/basic" "$DEVICE_DIR"
+    echo "Created devices/$DEVICE from template"
 fi
-echo ""
 
-# ── Show disko config ────────────────────────────────────────────
-echo "[*] Current block devices:"
+# disko
 echo ""
 lsblk -o NAME,SIZE,TYPE,MOUNTPOINT
 echo ""
+cat "$DEVICE_DIR/disko.nix"
+echo ""
+read -rp "Edit disko config? (y/n) " EDIT_DISKO
+[[ "$EDIT_DISKO" == "y" ]] && vi "$DEVICE_DIR/disko.nix"
 
-DISKO_FILE="$WORK_DIR/devices/$DEVICE/disko.nix"
-if [[ ! -f "$DISKO_FILE" ]]; then
-    # fallback: check if device uses standard profile via flake
-    DISKO_FILE="$WORK_DIR/disko/standard-nvme.nix"
+echo ""
+echo "THIS WILL ERASE THE TARGET DISK."
+read -rp "Proceed? (yes/no) " CONFIRM
+[[ "$CONFIRM" != "yes" && "$CONFIRM" != "y" ]] && echo "Aborted." && exit 1
+
+# hostname
+echo ""
+read -rp "Hostname (e.g. work-laptop): " HOSTNAME
+[[ -z "$HOSTNAME" ]] && echo "Empty hostname." && exit 1
+
+# check flake
+if ! grep -q "\"$HOSTNAME\"" "$WORK_DIR/flake.nix"; then
+    echo "$HOSTNAME not in flake.nix yet, opening editor..."
+    vi "$WORK_DIR/flake.nix"
 fi
 
-echo "[*] Disko config that will be applied:"
-echo ""
-cat "$DISKO_FILE"
-echo ""
+# git add (flakes need tracked files)
+git -C "$WORK_DIR" add -A
 
-echo "[!] THIS WILL ERASE THE TARGET DISK."
-read -rp "    Proceed? (yes/no) > " CONFIRM
-if [[ "$CONFIRM" != "yes" ]]; then
-    echo ""
-    echo "    Aborting. You can edit the disko config and re-run:"
-    echo "      vi $DISKO_FILE"
-    echo "      install-nixos"
-    exit 1
-fi
-echo ""
+# partition
+nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- \
+    --mode destroy,format,mount "$DEVICE_DIR/disko.nix"
 
-# ── Determine hostname ───────────────────────────────────────────
-HOSTNAME=$(grep -A5 "\"$(basename "$DEVICE")\"\\|$(basename "$DEVICE")" "$WORK_DIR/flake.nix" \
-    | grep "hostName" | head -1 | sed 's/.*"\(.*\)".*/\1/' || true)
-
-if [[ -z "$HOSTNAME" ]]; then
-    read -rp "[?] Could not detect hostname. Enter it: > " HOSTNAME
-fi
-
-echo "[*] Installing as: $HOSTNAME"
-echo ""
-
-# ── Partition ────────────────────────────────────────────────────
-echo "[*] Running disko..."
-nix run github:nix-community/disko -- --mode disko --flake "$WORK_DIR#$HOSTNAME"
-echo ""
-echo "[*] Mounts after disko:"
-findmnt --target /mnt || mount | grep /mnt
-echo ""
-
-# ── Install ──────────────────────────────────────────────────────
-echo "[*] Running nixos-install..."
+# install
 nixos-install --flake "$WORK_DIR#$HOSTNAME" --no-root-passwd
+
 echo ""
-echo "  Done! Run 'reboot' to start your new system."
-echo ""
+echo "Done. Set password: nixos-enter --root /mnt -c 'passwd niels'"
+echo "Then: reboot"

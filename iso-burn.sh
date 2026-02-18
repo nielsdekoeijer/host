@@ -22,7 +22,7 @@ echo ""
 echo "THIS WILL ERASE $DEVICE"
 read -rp "    Proceed? (yes/no) > " CONFIRM
 
-if [[ "$CONFIRM" != "yes" ]]; then
+if [[ "$CONFIRM" != "yes" && "$CONFIRM" != "y" ]]; then
     echo "Aborted."
     exit 1
 fi
