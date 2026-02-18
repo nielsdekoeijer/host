@@ -37,8 +37,8 @@
         user = "niels";
         stateVersion = "25.11";
         diskoConfiguration = { ... }: import ./devices/work-laptop-1/disko.nix;
-        configurationPath = ./systems/development-laptop/configuration.nix;
-        homeManagerPath = ./systems/development-laptop/home-manager.nix;
+        configurationPath = ./devices/work-laptop-1/configuration.nix;
+        homeManagerPath = ./devices/work-laptop-1/home-manager.nix;
       };
 
       personal-laptop = mkSystem {
@@ -47,8 +47,8 @@
         user = "niels";
         stateVersion = "25.11";
         diskoConfiguration = { ... }: import ./devices/personal-laptop-1/disko.nix;
-        configurationPath = ./systems/personal-laptop/configuration.nix;
-        homeManagerPath = ./systems/personal-laptop/home-manager.nix;
+        configurationPath = ./devices/personal-laptop-1/configuration.nix;
+        homeManagerPath = ./devices/personal-laptop-1/home-manager.nix;
       };
 
     in
