@@ -5,17 +5,14 @@
     nixpkgs = {
       url = "github:nixos/nixpkgs?ref=nixos-unstable";
     };
-
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     utils = {
       url = "github:numtide/flake-utils";
     };
@@ -30,6 +27,7 @@
     }:
     let
       mkSystem = import ./lib/mkSystem.nix { inherit nixpkgs home-manager disko; };
+      mkISO = import ./lib/mkISO.nix { inherit nixpkgs disko; };
 
       work-laptop = mkSystem {
         system = "x86_64-linux";
@@ -56,7 +54,17 @@
       nixosConfigurations.work-laptop = work-laptop;
       nixosConfigurations.personal-laptop = personal-laptop;
 
-      packages."x86_64-linux".default = work-laptop;
+      nixosConfigurations.installer = mkISO {
+        system = "x86_64-linux";
+        extraModules = [ ./common/iso/installer.nix ];
+      };
 
+      packages."x86_64-linux" = {
+        default = work-laptop;
+        iso = (mkISO {
+          system = "x86_64-linux";
+          extraModules = [ ./common/iso/installer.nix ];
+        }).config.system.build.isoImage;
+      };
     };
 }
