@@ -22,9 +22,6 @@
     9190
   ];
 
-  # enable firmware
-  hardware.enableRedistributableFirmware = true;
-
   # avahi (mDNS service discovery)
   services.avahi = {
     enable = true;

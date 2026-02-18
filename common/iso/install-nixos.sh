@@ -59,9 +59,14 @@ git -C "$WORK_DIR" add -A
 nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- \
     --mode destroy,format,mount "$DEVICE_DIR/disko.nix"
 
-# install
-nixos-install --flake "$WORK_DIR#$HOSTNAME" --no-root-passwd
+echo "Copying configuration to new system..."
+TARGET_USER="niels"
+TARGET_DIR="/mnt/home/$TARGET_USER/repositories/personal/host"
+
+mkdir -p "$TARGET_DIR"
+cp -a "$WORK_DIR/." "$TARGET_DIR/"
+
+nixos-enter --root /mnt -c "chown -R 1000:1000 /home/$TARGET_USER/repositories"
 
 echo ""
-echo "Done. Set password: nixos-enter --root /mnt -c 'passwd niels'"
-echo "Then: reboot"
+echo "Done. Set password..."

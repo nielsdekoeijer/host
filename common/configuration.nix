@@ -34,6 +34,7 @@
 
   # firmware
   hardware.enableAllFirmware = true;
+  hardware.enableRedistributableFirmware = true;
   nixpkgs.config.allowUnfree = true;
 
   # user
@@ -78,7 +79,7 @@
       "sd_mod"
       "rtsx_pci_sdmmc"
     ];
-    kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = pkgs.linuxPackages;
     kernelModules = [
       "uinput"
       "kvm-intel"

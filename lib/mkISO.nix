@@ -21,16 +21,13 @@ in lib.nixosSystem {
       # to get wifi working... I just iterated until it worked
       nixpkgs.config.allowUnfree = true;
       hardware.enableAllFirmware = true;
-      boot.kernelPackages = pkgs.linuxPackages_latest;
-      boot.supportedFilesystems.zfs = lib.mkForce false;
       hardware.enableRedistributableFirmware = lib.mkForce true;
-      hardware.wirelessRegulatoryDatabase = true;
+      boot.kernelPackages = pkgs.linuxPackages;
 
       # ssh
       services.openssh.enable = true;
 
       environment.systemPackages = with pkgs; [
-        linux-firmware
         git
         neovim
         curl
