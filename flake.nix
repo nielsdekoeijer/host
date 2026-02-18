@@ -17,6 +17,7 @@
 
   outputs =
     {
+      self,
       nixpkgs,
       home-manager,
       disko,
@@ -26,52 +27,42 @@
       mkSystem = import ./lib/mkSystem.nix { inherit nixpkgs home-manager disko; };
       mkISO = import ./lib/mkISO.nix { inherit nixpkgs disko; };
 
-      work-laptop = mkSystem {
-        system = "x86_64-linux";
-        hostName = "work-laptop";
-        user = "niels";
-        stateVersion = "25.11";
-        diskoConfiguration = { ... }: import ./devices/work-laptop-1/disko.nix;
-        configurationPath = ./devices/work-laptop-1/configuration.nix;
-        homeManagerPath = ./devices/work-laptop-1/home-manager.nix;
-      };
+      user = "niels";
+      stateVersion = "25.11";
+      system = "x86_64-linux";
+      devicesDir = ./devices;
+      deviceNames = nixpkgs.lib.attrNames (
+        nixpkgs.lib.filterAttrs (n: v: v == "directory") (builtins.readDir devicesDir)
+      );
 
-      work-laptop-2 = mkSystem {
-        system = "x86_64-linux";
-        hostName = "work-laptop-2";
-        user = "niels";
-        stateVersion = "25.11";
-        diskoConfiguration = { ... }: import ./devices/work-laptop-2/disko.nix;
-        configurationPath = ./devices/work-laptop-2/configuration.nix;
-        homeManagerPath = ./devices/work-laptop-2/home-manager.nix;
-      };
+      genSystem =
+        name:
+        mkSystem {
+          inherit system user stateVersion;
+          hostName = name; # Hostname is now exactly the folder name
+          diskoConfiguration = { ... }: import (devicesDir + "/${name}/disko.nix");
+          configurationPath = devicesDir + "/${name}/configuration.nix";
+          homeManagerPath = devicesDir + "/${name}/home-manager.nix";
+        };
 
-      personal-laptop = mkSystem {
-        system = "x86_64-linux";
-        hostName = "personal-laptop";
-        user = "niels";
-        stateVersion = "25.11";
-        diskoConfiguration = { ... }: import ./devices/personal-laptop-1/disko.nix;
-        configurationPath = ./devices/personal-laptop-1/configuration.nix;
-        homeManagerPath = ./devices/personal-laptop-1/home-manager.nix;
-      };
+      generatedSystems = nixpkgs.lib.genAttrs deviceNames genSystem;
 
     in
     {
-      nixosConfigurations.work-laptop = work-laptop;
-      nixosConfigurations.work-laptop-2 = work-laptop-2;
-      nixosConfigurations.personal-laptop = personal-laptop;
-
-      nixosConfigurations.installer = mkISO {
-        system = "x86_64-linux";
-        extraModules = [ ./common/iso/installer.nix ];
+      nixosConfigurations = generatedSystems // {
+        installer = mkISO {
+          inherit system;
+          extraModules = [ ./common/iso/installer.nix ];
+        };
       };
 
-      packages."x86_64-linux" = {
-        default = work-laptop;
+      packages.${system} = {
+        # Defaults to one of your known hosts for convenience
+        default = self.nixosConfigurations.basic.config.system.build.toplevel;
+
         iso =
           (mkISO {
-            system = "x86_64-linux";
+            inherit system;
             extraModules = [ ./common/iso/installer.nix ];
           }).config.system.build.isoImage;
       };
