@@ -157,6 +157,7 @@
           },
         },
       })
+      vim.lsp.enable('nixd', true)
 
       -- zig lsp
       vim.lsp.config.zls = {

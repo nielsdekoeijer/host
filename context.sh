@@ -1,0 +1,1 @@
+find . -maxdepth 5 -type f \( -name 'cross.sh' -o -name '*.nix' -o -name '*.sh' -o -name '*.rs'  -o -name '*.c' -o -name '*.toml' \) -print0 | sort -z | xargs -0 -I{} sh -c 'printf "\n// ==== %s ====\n" "{}"; cat "{}"' | vi

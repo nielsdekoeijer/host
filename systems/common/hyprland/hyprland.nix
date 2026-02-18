@@ -79,6 +79,7 @@ in {
         "$mod, 8, workspace, 8"
         "$mod, 9, workspace, 9"
 
+        "$mod SHIFT, F, togglefloating"
         "$mod SHIFT, H, swapwindow, l"
         "$mod SHIFT, L, swapwindow, r"
         "$mod SHIFT, K, swapwindow, u"
@@ -97,9 +98,9 @@ in {
     };
 
     extraConfig = ''
-      # monitor=eDP-1,preferred,auto,1.0
-      # monitor=,preferred,auto,1.0,mirror,eDP-1
-      monitor=,preferred,auto,1
+      monitor=eDP-1,preferred,auto,1.0
+      monitor=,preferred,auto,1.0,mirror,eDP-1
+      # monitor=,preferred,auto,1
     '';
   };
 }

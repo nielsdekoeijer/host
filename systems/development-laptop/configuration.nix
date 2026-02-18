@@ -11,9 +11,6 @@
     libraries = with pkgs; [ stdenv.cc.cc ];
   };
 
-  # docs
-  documentation.dev.enable = true;
-
   # direnv
   programs.direnv.enable = true;
 
@@ -40,6 +37,16 @@
   # NOTE: needs dbus for network manager to work! So enable that
   services.dbus.enable = true;
 
+  # avahi
+  services.avahi.enable = true;
+  services.avahi.publish.enable = true;
+  services.avahi.publish.addresses = true;
+
+  # more aggressive oom killer
+  services.earlyoom = {
+      enable = true;
+  };
+
   # TODO: I dont know why this is needed
   networking.useDHCP = lib.mkDefault true;
 
@@ -59,10 +66,21 @@
   };
 
   # adb/fastboot binaries
-  environment.systemPackages = [ pkgs.android-tools ];
+  environment.systemPackages = [ 
+      pkgs.android-tools 
+      pkgs.man-pages 
+      pkgs.avahi 
+      (pkgs.writeShellScriptBin "show-products" ''
+          ${pkgs.avahi}/bin/avahi-browse -rtp _bangolufsen._tcp | ${pkgs.gawk}/bin/awk -F"\;" '/^=/ {print $4, $8}'
+      '')
+  ];
 
-  # sets up permissive udev rules + an “adbusers” group
-  programs.adb.enable = true;
+  # enable man pages
+  documentation = {
+    dev.enable = true;
+    man.generateCaches = true;
+    nixos.includeAllModules = true;                                         
+  };
 
   # configure the bootloader
   # TODO: I just copy pasted this, I dont know what any of it means yet

@@ -30,6 +30,10 @@
       pkgs.kdePackages.okular
       pkgs.swww
 
+      # office
+      pkgs.libreoffice
+      pkgs.wf-recorder
+
       # guis
       pkgs.networkmanagerapplet
 

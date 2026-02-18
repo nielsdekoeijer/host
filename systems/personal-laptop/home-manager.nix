@@ -63,7 +63,6 @@
   # import common
   imports = [
     ../common/nvim/nvim.nix
-    ../common/kitty/kitty.nix
     ../common/bash/bash.nix
     ../common/waybar/waybar.nix
     ../common/hyprland/hyprland.nix
