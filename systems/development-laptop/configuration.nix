@@ -1,11 +1,26 @@
-{ config, pkgs, user, hostName, stateVersion, lib, ... }: {
-  imports = [ ../../common/configuration.nix ../../common/hardware/nvidia.nix ];
+{
+  config,
+  pkgs,
+  user,
+  hostName,
+  stateVersion,
+  lib,
+  ...
+}:
+{
+  imports = [
+    ../../common/configuration.nix
+    ../../common/hardware/nvidia.nix
+  ];
 
   # nix-ld libraries for precompiled binaries
   programs.nix-ld.libraries = with pkgs; [ stdenv.cc.cc ];
 
   # dev firewall ports
-  networking.firewall.allowedTCPPorts = [ 8000 9190 ];
+  networking.firewall.allowedTCPPorts = [
+    8000
+    9190
+  ];
 
   # avahi (mDNS service discovery)
   services.avahi = {

@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   programs.git = {
     enable = true;
 
@@ -11,12 +12,12 @@
             email = "NEMK@bang-olufsen.dk";
           };
           core = {
-            sshCommand = "ssh -i ~/.ssh/work"; 
+            sshCommand = "ssh -i ~/.ssh/work";
           };
         };
       }
       {
-        condition = "gitdir:~/repositories/personal/"; 
+        condition = "gitdir:~/repositories/personal/";
         contents = {
           user = {
             name = "Niels de Koeijer";
@@ -28,7 +29,7 @@
         };
       }
       {
-        condition = "gitdir:~/nixos/"; 
+        condition = "gitdir:~/nixos/";
         contents = {
           user = {
             name = "Niels de Koeijer";

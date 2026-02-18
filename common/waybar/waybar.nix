@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   programs.waybar = {
     enable = true;
 
@@ -10,9 +11,20 @@
         margin-left = 10;
         margin-right = 10;
         modules-left = [ "hyprland/workspaces" ];
-        modules-right = [ "network" "cpu" "memory" "battery" "clock" "tray" ];
-        "hyprland/workspaces" = { format = "{name}"; };
-        tray = { spacing = 10; };
+        modules-right = [
+          "network"
+          "cpu"
+          "memory"
+          "battery"
+          "clock"
+          "tray"
+        ];
+        "hyprland/workspaces" = {
+          format = "{name}";
+        };
+        tray = {
+          spacing = 10;
+        };
         network = {
           format = "󰤥  {essid}";
           format-disconnected = "󰤮  Disconnected";
@@ -22,10 +34,18 @@
           tooltip-format-disconnected = "Disconnected";
           on-click = "nm-connection-editor";
         };
-        cpu = { format = "  {usage}%"; };
-        memory = { format = "󰍛  {}%"; };
-        battery = { format = "  {capacity}%"; };
-        clock = { format = "  {:%I:%M %p}"; };
+        cpu = {
+          format = "  {usage}%";
+        };
+        memory = {
+          format = "󰍛  {}%";
+        };
+        battery = {
+          format = "  {capacity}%";
+        };
+        clock = {
+          format = "  {:%I:%M %p}";
+        };
       };
     };
 

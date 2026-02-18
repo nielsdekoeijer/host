@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   programs.neovim = {
     enable = true;
 
@@ -12,7 +13,7 @@
     extraPackages = [
       pkgs.ripgrep
       pkgs.llvmPackages_21.clang-tools
-      pkgs.nixfmt-classic
+      pkgs.nixfmt
       pkgs.nixd
       pkgs.tinymist
       pkgs.typstyle

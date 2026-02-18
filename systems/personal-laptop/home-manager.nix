@@ -1,5 +1,11 @@
 # systems/personal-laptop/home-manager.nix
-{ pkgs, user, stateVersion, ... }: {
+{
+  pkgs,
+  user,
+  stateVersion,
+  ...
+}:
+{
   imports = [
     ../../common/home-manager.nix
   ];

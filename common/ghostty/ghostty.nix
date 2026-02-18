@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   # ghostty settings
   programs.ghostty = {
     enable = true;

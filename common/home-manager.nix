@@ -1,7 +1,13 @@
-{ pkgs, user, stateVersion, ... }: {
+{
+  pkgs,
+  user,
+  stateVersion,
+  ...
+}:
+{
   home.packages = [
     # formatters
-    pkgs.nixfmt-classic
+    pkgs.nixfmt
 
     # sound
     pkgs.pwvucontrol

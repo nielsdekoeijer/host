@@ -1,6 +1,8 @@
 { pkgs, ... }:
-let wallpaper = ./wallpaper.jpg;
-in {
+let
+  wallpaper = ./wallpaper.jpg;
+in
+{
   wayland.windowManager.hyprland = {
     enable = true;
     settings = {
@@ -27,7 +29,9 @@ in {
       };
 
       # no rounding
-      decoration = { rounding = 0; };
+      decoration = {
+        rounding = 0;
+      };
 
       # disable anime girl
       misc = {

@@ -1,5 +1,17 @@
-{ config, pkgs, user, hostName, stateVersion, lib, ... }: {
-  imports = [ ../../common/configuration.nix ../../common/hardware/nvidia.nix ];
+{
+  config,
+  pkgs,
+  user,
+  hostName,
+  stateVersion,
+  lib,
+  ...
+}:
+{
+  imports = [
+    ../../common/configuration.nix
+    ../../common/hardware/nvidia.nix
+  ];
 
   # steam
   programs.steam = {

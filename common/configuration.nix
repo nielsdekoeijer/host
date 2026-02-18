@@ -1,12 +1,24 @@
 # common/configuration.nix
 #
 # Shared NixOS configuration for all devices.
-{ config, pkgs, user, hostName, stateVersion, lib, ... }: {
+{
+  config,
+  pkgs,
+  user,
+  hostName,
+  stateVersion,
+  lib,
+  ...
+}:
+{
   system.stateVersion = stateVersion;
   networking.hostName = hostName;
 
   # flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # timezone
   time.timeZone = "Europe/Amsterdam";
@@ -31,7 +43,13 @@
     initialPassword = " ";
     group = "${user}";
     uid = 1000;
-    extraGroups = [ "wheel" "video" "input" "seat" "docker" ];
+    extraGroups = [
+      "wheel"
+      "video"
+      "input"
+      "seat"
+      "docker"
+    ];
   };
 
   # man pages
@@ -61,7 +79,10 @@
       "rtsx_pci_sdmmc"
     ];
     kernelPackages = pkgs.linuxPackages_latest;
-    kernelModules = [ "uinput" "kvm-intel" ];
+    kernelModules = [
+      "uinput"
+      "kvm-intel"
+    ];
   };
 
   # docker

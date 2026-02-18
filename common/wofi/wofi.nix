@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   # Enable wofi
   programs.wofi.enable = true;
 
@@ -65,4 +66,3 @@
     }
   '';
 }
-
