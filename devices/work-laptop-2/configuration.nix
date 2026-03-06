@@ -34,7 +34,7 @@
     pkgs.avahi
     (pkgs.writeShellScriptBin "show-products" ''
       ${pkgs.avahi}/bin/avahi-browse -rtp _bangolufsen._tcp \
-        | ${pkgs.gawk}/bin/awk -F"\;" '/^=/ {print $4, $8}'
+        | ${pkgs.gawk}/bin/awk -F';' '/^=/ && !seen[$4,$8]++ {print $4, $8}'
     '')
   ];
 }

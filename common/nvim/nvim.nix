@@ -73,6 +73,9 @@
       -- leader
       vim.g.mapleader = " "
 
+      -- scroll
+      vim.opt.mousescroll = "ver:1,hor:1"
+
       -- color column
       vim.opt.colorcolumn = "120"
       vim.api.nvim_set_hl(0, "ColorColumn", { bg = "#ff5874" })

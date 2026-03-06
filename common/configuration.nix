@@ -50,8 +50,27 @@
       "input"
       "seat"
       "docker"
+      "audio"
     ];
   };
+
+  # rt perms
+  security.rtkit.enable = true;
+
+  security.pam.loginLimits = [
+    {
+      domain = "@audio";
+      type = "-";
+      item = "rtprio";
+      value = "99";
+    }
+    {
+      domain = "@audio";
+      type = "-";
+      item = "memlock";
+      value = "unlimited";
+    }
+  ];
 
   # man pages
   environment.systemPackages = [ pkgs.man-pages ];

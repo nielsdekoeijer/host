@@ -10,6 +10,7 @@
       background-opacity = 0.95;
       theme = "aurora";
       confirm-close-surface = "false";
+      mouse-scroll-multiplier = 0.1;
       working-directory = "home";
     };
     themes = {
