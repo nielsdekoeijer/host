@@ -13,6 +13,18 @@
     ../../common/hardware/nvidia.nix
   ];
 
+  # nvidia
+  hardware.nvidia.prime = {
+    offload = {
+      enable = true;
+      enableOffloadCmd = true;
+    };
+
+    # Bus IDs extracted from your earlier kernel logs
+    amdgpuBusId = "PCI:5:0:0";
+    nvidiaBusId = "PCI:1:0:0";
+  };
+
   # steam
   programs.steam = {
     enable = true;

@@ -113,4 +113,22 @@
 
   # OOM killer
   services.earlyoom.enable = true;
+
+  # Greatly increase fd limits
+  security.pam.loginLimits = [
+    {
+      domain = "*";
+      type = "hard";
+      item = "nofile";
+      value = "1048576";
+    }
+    {
+      domain = "*";
+      type = "soft";
+      item = "nofile";
+      value = "1048576";
+    }
+  ];
+
+  systemd.settings.Manager.DefaultLimitNOFILE = "1048576";
 }
