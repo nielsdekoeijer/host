@@ -3,6 +3,7 @@
   pkgs,
   user,
   stateVersion,
+  inputs,
   ...
 }:
 {
@@ -20,6 +21,9 @@
       pkgs.gemini-cli
       pkgs.perf
       pkgs.croc
+
+      # log viewer
+      inputs.lazylog.packages.${pkgs.system}.default
     ];
   };
 

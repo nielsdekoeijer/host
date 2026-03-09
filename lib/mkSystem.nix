@@ -2,6 +2,7 @@
   nixpkgs,
   home-manager,
   disko,
+  inputs,
 }:
 
 {
@@ -23,7 +24,7 @@ in
 lib.nixosSystem {
   inherit system;
 
-  specialArgs = { inherit user stateVersion hostName; };
+  specialArgs = { inherit user stateVersion hostName inputs; };
 
   modules = [
     disko.nixosModules.disko
@@ -34,7 +35,8 @@ lib.nixosSystem {
       home-manager = {
         useGlobalPkgs = true;
         useUserPackages = true;
-        users.${user} = import homeManagerPath { inherit user stateVersion pkgs; };
+        extraSpecialArgs = { inherit inputs user stateVersion hostName pkgs; };
+        users.${user} = homeManagerPath;
       };
     }
 

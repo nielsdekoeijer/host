@@ -37,4 +37,13 @@
         | ${pkgs.gawk}/bin/awk -F';' '/^=/ && !seen[$4,$8]++ {print $4, $8}'
     '')
   ];
+
+  # swap
+  swapDevices = [
+    {
+      device = "/var/lib/swapfile";
+      size = 16384 * 2; 
+    }
+  ];
+
 }

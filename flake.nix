@@ -13,6 +13,12 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # random software
+    lazylog = {
+      url = "github:nielsdekoeijer/lazylog";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -22,9 +28,9 @@
       home-manager,
       disko,
       ...
-    }:
+    }@inputs:
     let
-      mkSystem = import ./lib/mkSystem.nix { inherit nixpkgs home-manager disko; };
+      mkSystem = import ./lib/mkSystem.nix { inherit nixpkgs home-manager disko inputs; };
       mkISO = import ./lib/mkISO.nix { inherit nixpkgs disko; };
 
       user = "niels";
