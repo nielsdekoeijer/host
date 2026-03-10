@@ -11,6 +11,7 @@
   imports = [
     ../../common/configuration.nix
     ../../common/hardware/nvidia.nix
+    ./wireguard.nix
   ];
 
   # nix-ld libraries for precompiled binaries

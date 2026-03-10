@@ -29,6 +29,7 @@ lib.nixosSystem {
   modules = [
     disko.nixosModules.disko
     diskoConfiguration
+    inputs.agenix.nixosModules.default
 
     {
       imports = [ home-manager.nixosModules.home-manager ];

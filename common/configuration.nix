@@ -25,8 +25,10 @@
 
   # networking
   networking.networkmanager.enable = true;
+  networking.networkmanager.dns = "systemd-resolved";
   networking.useDHCP = lib.mkDefault true;
   services.dbus.enable = true;
+  services.resolved.enable = true;
 
   # bluetooth
   hardware.bluetooth.enable = true;

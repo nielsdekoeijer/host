@@ -21,6 +21,8 @@
       pkgs.gemini-cli
       pkgs.perf
       pkgs.croc
+      pkgs.uv
+      pkgs.gh
 
       # log viewer
       inputs.lazylog.packages.${pkgs.system}.default
