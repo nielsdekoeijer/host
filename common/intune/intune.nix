@@ -9,21 +9,9 @@ let
   cfg = config.bogo.intune;
   mib_url = "https://packages.microsoft.com/ubuntu/24.04/prod/pool/main/m/microsoft-identity-broker/microsoft-identity-broker_3.0.1-noble_amd64.deb";
   mib_sha = "sha256-cbG+HJ1nuOyxR/sd1P69QTEUaklywbJOP7o6K7l6SEs=";
+
   int_url = "https://packages.microsoft.com/ubuntu/24.04/prod/pool/main/i/intune-portal/intune-portal_1.2603.31-noble_amd64.deb";
   int_sha = "sha256-0braaXnRa04CUQdJx0ZFwe5qfjsJNzTtGqaKQV5Z6Yw=";
-
-  # intune-portal-wrapped = pkgs.writeShellScriptBin "intune-portal" ''
-  #   export GIO_EXTRA_MODULES="${pkgs.glib-networking}/lib/gio/modules"
-  #   export SSL_CERT_FILE="/etc/ssl/certs/ca-certificates.crt"
-  #   export SSL_CERT_DIR="/etc/ssl/certs"
-  #   export WEBKIT_DISABLE_SANDBOX_THIS_IS_DANGEROUS="1"
-  #   export WEBKIT_DISABLE_DMABUF_RENDERER="1"
-  #   export MSAL_ALLOW_PII=true
-  #   export MSAL_LOG_LEVEL=4
-  #   ${pkgs.dbus}/bin/dbus-update-activation-environment --systemd --all
-  #   ${pkgs.intune-portal}/bin/intune-portal
-  #
-  # '';
 
   intune-portal-wrapped = pkgs.writeShellScriptBin "intune-portal" ''
     set -e
