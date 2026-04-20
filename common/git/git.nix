@@ -3,6 +3,8 @@
   programs.git = {
     enable = true;
 
+    userName = "Niels de Koeijer";
+
     includes = [
       {
         condition = "gitdir:~/repositories/work/";

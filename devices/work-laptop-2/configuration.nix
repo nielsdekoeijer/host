@@ -10,12 +10,16 @@
 {
   imports = [
     ../../common/configuration.nix
+    ../../common/intune/intune.nix
     ../../common/hardware/nvidia.nix
     ./wireguard.nix
   ];
 
   # nix-ld libraries for precompiled binaries
   programs.nix-ld.libraries = with pkgs; [ stdenv.cc.cc ];
+
+  # fucking intune
+  bogo.intune.enable = true;
 
   # dev firewall ports
   networking.firewall.allowedTCPPorts = [
@@ -43,7 +47,7 @@
   swapDevices = [
     {
       device = "/var/lib/swapfile";
-      size = 16384 * 2; 
+      size = 16384 * 2;
     }
   ];
 

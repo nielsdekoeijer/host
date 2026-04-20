@@ -51,6 +51,7 @@
       "video"
       "input"
       "seat"
+      "netdev"
       "docker"
       "audio"
     ];
