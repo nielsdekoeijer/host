@@ -86,7 +86,7 @@
       "sd_mod"
       "rtsx_pci_sdmmc"
     ];
-    kernelPackages = pkgs.linuxPackages;
+    kernelPackages = lib.mkDefault pkgs.linuxPackages;
     kernelModules = [
       "uinput"
       "kvm-intel"
