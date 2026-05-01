@@ -19,6 +19,7 @@
       pkgs.discord
       pkgs.obsidian
       pkgs.wofi
+      pkgs.runelite
     ];
   };
 
