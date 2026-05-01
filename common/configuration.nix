@@ -25,8 +25,10 @@
 
   # networking
   networking.networkmanager.enable = true;
+  networking.networkmanager.dns = "systemd-resolved";
   networking.useDHCP = lib.mkDefault true;
   services.dbus.enable = true;
+  services.resolved.enable = true;
 
   # bluetooth
   hardware.bluetooth.enable = true;
@@ -49,9 +51,14 @@
       "video"
       "input"
       "seat"
+      "netdev"
       "docker"
+      "audio"
     ];
   };
+
+  # rt perms
+  security.rtkit.enable = true;
 
   # man pages
   environment.systemPackages = [ pkgs.man-pages ];
@@ -79,7 +86,7 @@
       "sd_mod"
       "rtsx_pci_sdmmc"
     ];
-    kernelPackages = pkgs.linuxPackages;
+    kernelPackages = lib.mkDefault pkgs.linuxPackages;
     kernelModules = [
       "uinput"
       "kvm-intel"
@@ -114,8 +121,20 @@
   # OOM killer
   services.earlyoom.enable = true;
 
-  # Greatly increase fd limits
+  # PAM limits (audio + fd limits)
   security.pam.loginLimits = [
+    {
+      domain = "@audio";
+      type = "-";
+      item = "rtprio";
+      value = "99";
+    }
+    {
+      domain = "@audio";
+      type = "-";
+      item = "memlock";
+      value = "unlimited";
+    }
     {
       domain = "*";
       type = "hard";

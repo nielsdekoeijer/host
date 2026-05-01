@@ -40,6 +40,7 @@
 
       # basic
       pkgs.vimPlugins.nvim-treesitter.withAllGrammars
+      pkgs.vimPlugins.indent-blankline-nvim
 
       # async helper
       pkgs.vimPlugins.plenary-nvim
@@ -72,6 +73,9 @@
 
       -- leader
       vim.g.mapleader = " "
+
+      -- scroll
+      vim.opt.mousescroll = "ver:1,hor:1"
 
       -- color column
       vim.opt.colorcolumn = "120"
@@ -145,6 +149,17 @@
       }
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
+      -- indent lines (indent-blankline)
+      require("ibl").setup {
+        indent = { 
+          char = "│", -- Uses a smooth continuous vertical line
+        },
+        scope = {
+          enabled = true,
+          show_start = false,
+          show_end = false,
+        },
+      }
 
       -- extract util
       local util = require("lspconfig.util")

@@ -5,12 +5,25 @@
     nixpkgs = {
       url = "github:nixos/nixpkgs?ref=nixos-unstable";
     };
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     disko = {
       url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # random software
+    lazylog = {
+      url = "github:nielsdekoeijer/lazylog";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -22,9 +35,9 @@
       home-manager,
       disko,
       ...
-    }:
+    }@inputs:
     let
-      mkSystem = import ./lib/mkSystem.nix { inherit nixpkgs home-manager disko; };
+      mkSystem = import ./lib/mkSystem.nix { inherit nixpkgs home-manager disko inputs; };
       mkISO = import ./lib/mkISO.nix { inherit nixpkgs disko; };
 
       user = "niels";
