@@ -37,17 +37,27 @@
       ...
     }@inputs:
     let
-      mkSystem = import ./lib/mkSystem.nix { inherit nixpkgs home-manager disko inputs; };
+      mkSystem = import ./lib/mkSystem.nix {
+        inherit
+          nixpkgs
+          home-manager
+          disko
+          inputs
+          ;
+      };
       mkISO = import ./lib/mkISO.nix { inherit nixpkgs disko; };
 
       user = "niels";
       stateVersion = "25.11";
       system = "x86_64-linux";
       devicesDir = ./devices;
+
+      # the devices folder describes every device I have customized
       deviceNames = nixpkgs.lib.attrNames (
         nixpkgs.lib.filterAttrs (n: v: v == "directory") (builtins.readDir devicesDir)
       );
 
+      # function that generates my system based on a given hostname
       genSystem =
         name:
         mkSystem {
