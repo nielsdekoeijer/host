@@ -50,11 +50,12 @@
       user = "niels";
       stateVersion = "25.11";
       system = "x86_64-linux";
-      devicesDir = ./devices;
+      hostsDir = ./hosts;
+      pkgs = nixpkgs.legacyPackages.${system};
 
-      # the devices folder describes every device I have customized
-      deviceNames = nixpkgs.lib.attrNames (
-        nixpkgs.lib.filterAttrs (n: v: v == "directory") (builtins.readDir devicesDir)
+      # the hosts folder describes every host I have customized
+      hostNames = nixpkgs.lib.attrNames (
+        nixpkgs.lib.filterAttrs (n: v: v == "directory") (builtins.readDir hostsDir)
       );
 
       # function that generates my system based on a given hostname
@@ -63,15 +64,17 @@
         mkSystem {
           inherit system user stateVersion;
           hostName = name; # Hostname is now exactly the folder name
-          diskoConfiguration = { ... }: import (devicesDir + "/${name}/disko.nix");
-          configurationPath = devicesDir + "/${name}/configuration.nix";
-          homeManagerPath = devicesDir + "/${name}/home-manager.nix";
+          diskoConfiguration = { ... }: import (hostsDir + "/${name}/disko.nix");
+          configurationPath = hostsDir + "/${name}/configuration.nix";
+          homeManagerPath = hostsDir + "/${name}/home-manager.nix";
         };
 
-      generatedSystems = nixpkgs.lib.genAttrs deviceNames genSystem;
+      generatedSystems = nixpkgs.lib.genAttrs hostNames genSystem;
 
     in
     {
+      formatter.${system} = pkgs.nixfmt;
+
       nixosConfigurations = generatedSystems // {
         installer = mkISO {
           inherit system;

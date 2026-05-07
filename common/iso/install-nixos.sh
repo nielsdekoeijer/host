@@ -15,16 +15,16 @@ else
     git clone "$FLAKE_REPO" "$WORK_DIR"
 fi
 
-# device name
+# host name
 read -rp "Device name (e.g. work-laptop-2): " DEVICE
 [[ -z "$DEVICE" ]] && echo "Empty name." && exit 1
 
-DEVICE_DIR="$WORK_DIR/devices/$DEVICE"
+DEVICE_DIR="$WORK_DIR/hosts/$DEVICE"
 if [[ -d "$DEVICE_DIR" ]]; then
-    echo "Using existing devices/$DEVICE"
+    echo "Using existing hosts/$DEVICE"
 else
-    cp -r "$WORK_DIR/devices/basic" "$DEVICE_DIR"
-    echo "Created devices/$DEVICE from template"
+    cp -r "$WORK_DIR/hosts/basic" "$DEVICE_DIR"
+    echo "Created hosts/$DEVICE from template"
 fi
 
 # disko

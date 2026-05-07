@@ -18,7 +18,7 @@ let
 
     echo "==> Spoofing Ubuntu 24.04 in /etc/os-release..."
     FAKE_OS_RELEASE=$(mktemp)
-    
+
     # Write the Ubuntu 24.04 (Noble Numbat) release info
     cat << 'EOF' > "$FAKE_OS_RELEASE"
     NAME="Ubuntu"
@@ -45,7 +45,7 @@ let
     export GIO_EXTRA_MODULES="${pkgs.glib-networking}/lib/gio/modules"
     export SSL_CERT_FILE="/etc/ssl/certs/ca-certificates.crt"
     export SSL_CERT_DIR="/etc/ssl/certs"
-    
+
     # Rendering and Sandbox fixes
     export WEBKIT_DISABLE_SANDBOX_THIS_IS_DANGEROUS="1"
     export WEBKIT_DISABLE_DMABUF_RENDERER="1" 
@@ -53,12 +53,12 @@ let
     export GDK_BACKEND=x11
     export WEBKIT_DISABLE_COMPOSITING_MODE="1"
     export LIBGL_ALWAYS_SOFTWARE="1"
-    
+
     export MSAL_ALLOW_PII="true"
     export MSAL_LOG_LEVEL="4"
-    
+
     ${pkgs.dbus}/bin/dbus-update-activation-environment --systemd --all
-    
+
     echo "==> Starting Intune Portal..."
     # Intentionally NOT using exec here so the trap can fire afterwards
     ${pkgs.intune-portal}/bin/intune-portal
@@ -120,7 +120,7 @@ in
           version = "1.2603.31";
           src = pkgs.fetchurl {
             url = int_url;
-            hash = int_sha; 
+            hash = int_sha;
           };
         });
       })
