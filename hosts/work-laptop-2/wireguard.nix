@@ -21,17 +21,17 @@ let
   '';
 in
 {
-  environment.systemPackages = [ 
-    pkgs.wireguard-tools 
-    beoguard 
+  environment.systemPackages = [
+    pkgs.wireguard-tools
+    beoguard
   ];
-  
+
   networking.firewall.checkReversePath = "loose";
-  age.identityPaths = [ "/home/niels/.ssh/agenix" ]; 
+  age.identityPaths = [ "/home/niels/.ssh/agenix" ];
   age.secrets.wg_bo_config.file = ./wg0.age;
-  
+
   networking.wg-quick.interfaces.wg0 = {
-    autostart = false; 
+    autostart = false;
     configFile = config.age.secrets.wg_bo_config.path;
   };
 }

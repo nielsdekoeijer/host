@@ -19,6 +19,8 @@
       pkgs.typstyle
       pkgs.idris2
       pkgs.idris2Packages.idris2Lsp
+      pkgs.ty
+      pkgs.ruff
     ];
 
     # plugins
@@ -194,6 +196,16 @@
         capabilities = capabilities,
       })
       vim.lsp.enable('rust_analyzer', true)
+
+      -- python
+      vim.lsp.config('ty', {
+        capabilities = capabilities,
+      })
+      vim.lsp.enable('ty', true)
+      vim.lsp.config('ruff', {
+        capabilities = capabilities,
+      })
+      vim.lsp.enable('ruff', true)
 
       --- clangd
       vim.lsp.config.clangd = {
