@@ -17,6 +17,8 @@
       pkgs.nixd
       pkgs.tinymist
       pkgs.typstyle
+      pkgs.idris2
+      pkgs.idris2Packages.idris2Lsp
     ];
 
     # plugins
@@ -180,6 +182,12 @@
         capabilities = capabilities,
       }
       vim.lsp.enable('zls', true)
+
+      -- idris2 lsp
+      vim.lsp.config('idris2_lsp', {
+        capabilities = capabilities,
+      })
+      vim.lsp.enable('idris2_lsp', true)
 
       -- rust-analyzer
       vim.lsp.config('rust_analyzer', {
