@@ -23,6 +23,28 @@
         "type": "github"
       }
     },
+    "context": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "rust-overlay": "rust-overlay",
+        "utils": "utils"
+      },
+      "locked": {
+        "lastModified": 1778582216,
+        "narHash": "sha256-Nh4RwzTluAWkTyF7b3U/9DVU9WmeY/sxsU9RniC8gZ4=",
+        "ref": "refs/heads/main",
+        "rev": "328dae7636786e09b82bb83d3abceed00effe2ac",
+        "revCount": 3,
+        "type": "git",
+        "url": "https://github.com/nielsdekoeijer/context.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://github.com/nielsdekoeijer/context.git"
+      }
+    },
     "darwin": {
       "inputs": {
         "nixpkgs": [
@@ -113,17 +135,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1773044242,
-        "narHash": "sha256-RC8GSWxXOhsxDV5KqsA6gGbQ4ghJt4zHBOMnSjP/+Wk=",
-        "owner": "nielsdekoeijer",
-        "repo": "lazylog",
-        "rev": "882d9418b9af1e69f014fffed4636f984efab980",
-        "type": "github"
+        "lastModified": 1777878639,
+        "narHash": "sha256-gtOl6au47Rpk0F//i320frSIcvI7p3Q3WDFediEQlzM=",
+        "ref": "refs/heads/main",
+        "rev": "296e005abfa5c857f54c6a45534b9af544051607",
+        "revCount": 314,
+        "type": "git",
+        "url": "https://github.com/kaspernyhus/lazylog.git"
       },
       "original": {
-        "owner": "nielsdekoeijer",
-        "repo": "lazylog",
-        "type": "github"
+        "type": "git",
+        "url": "https://github.com/kaspernyhus/lazylog.git"
       }
     },
     "nixpkgs": {
@@ -145,10 +167,32 @@
     "root": {
       "inputs": {
         "agenix": "agenix",
+        "context": "context",
         "disko": "disko",
         "home-manager": "home-manager_2",
         "lazylog": "lazylog",
         "nixpkgs": "nixpkgs"
+      }
+    },
+    "rust-overlay": {
+      "inputs": {
+        "nixpkgs": [
+          "context",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1778555852,
+        "narHash": "sha256-55EmwooVAS4UpA0oWd5wilKPRqCiHD5BAej9QiNwheY=",
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "rev": "f29b0f7a9f367e0056b716f8aa137cb41e784444",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "type": "github"
       }
     },
     "systems": {
@@ -163,6 +207,39 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "systems_2": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    "utils": {
+      "inputs": {
+        "systems": "systems_2"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
         "type": "github"
       }
     }

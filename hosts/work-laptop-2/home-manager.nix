@@ -26,6 +26,7 @@
 
       # log viewer
       inputs.lazylog.packages.${pkgs.system}.default
+      inputs.context.packages.${pkgs.system}.default
     ];
   };
 

@@ -23,7 +23,12 @@
 
     # random software
     lazylog = {
-      url = "github:nielsdekoeijer/lazylog";
+      url = "git+https://github.com/kaspernyhus/lazylog.git";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    context = {
+      url = "git+https://github.com/nielsdekoeijer/context.git";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

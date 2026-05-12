@@ -53,6 +53,8 @@
       "seat"
       "netdev"
       "docker"
+      "dialout"
+      "tty"
       "audio"
     ];
   };
@@ -90,6 +92,9 @@
     kernelModules = [
       "uinput"
       "kvm-intel"
+      "cp210x"   
+      "ftdi_sio" 
+      "ch341"    
     ];
   };
 

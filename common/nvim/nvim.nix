@@ -31,6 +31,9 @@
       # navigation
       pkgs.vimPlugins.telescope-nvim
 
+      # git
+      pkgs.vimPlugins.gitsigns-nvim
+
       # lsp stuff
       pkgs.vimPlugins.nvim-lspconfig
       pkgs.vimPlugins.nvim-cmp
@@ -224,6 +227,46 @@
       vim.lsp.config('tinymist', {
         settings = { formatterMode = "typstyle" },
       })
+
+      -- gitsigns (git integration & blame)
+      require('gitsigns').setup {
+        -- Enable inline virtual text blame by default
+        current_line_blame = true,
+        current_line_blame_opts = {
+          virt_text = true,
+          virt_text_pos = 'eol', -- places blame at the end of the line
+          delay = 500,           -- half-second delay before showing blame
+          ignore_whitespace = false,
+        },
+        current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <summary>',
+        
+        on_attach = function(bufnr)
+          local gs = package.loaded.gitsigns
+
+          local function map(mode, l, r, opts)
+            opts = opts or {}
+            opts.buffer = bufnr
+            vim.keymap.set(mode, l, r, opts)
+          end
+
+          -- Keymaps for Git Blame
+          map('n', '<leader>gb', function() gs.blame_line{full=true} end, { desc = 'Git Blame floating window' })
+          map('n', '<leader>tb', gs.toggle_current_line_blame, { desc = 'Toggle inline Git Blame' })
+          
+          -- Navigation for git hunks (optional but handy)
+          map('n', ']c', function()
+            if vim.wo.diff then return ']c' end
+            vim.schedule(function() gs.next_hunk() end)
+            return '<Ignore>'
+          end, {expr=true, desc = 'Next Git hunk'})
+
+          map('n', '[c', function()
+            if vim.wo.diff then return '[c' end
+            vim.schedule(function() gs.prev_hunk() end)
+            return '<Ignore>'
+          end, {expr=true, desc = 'Previous Git hunk'})
+        end
+      }
     '';
   };
 }

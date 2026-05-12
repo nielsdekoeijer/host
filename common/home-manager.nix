@@ -23,6 +23,7 @@
     pkgs.zip
     pkgs.bat
     pkgs.swww
+    pkgs.lazygit
 
     # typst
     pkgs.typst
