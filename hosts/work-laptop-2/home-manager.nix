@@ -6,6 +6,9 @@
   inputs,
   ...
 }:
+let
+
+in
 {
   imports = [ ../../common/home-manager.nix ];
 
@@ -27,6 +30,8 @@
       # log viewer
       inputs.lazylog.packages.${pkgs.system}.default
       inputs.context.packages.${pkgs.system}.default
+      inputs.remote-helvum.packages.${pkgs.system}.default
+      inputs.openconnect-sso.packages.${pkgs.system}.openconnect-sso
     ];
   };
 

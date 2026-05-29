@@ -87,6 +87,40 @@
         "type": "github"
       }
     },
+    "flake-utils": {
+      "inputs": {
+        "systems": "systems_3"
+      },
+      "locked": {
+        "lastModified": 1710146030,
+        "narHash": "sha256-SZ5L6eA7HJ/nmkzGG7/ISclqe6oZdOZTNoesiInkXPQ=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "b1d9ab70662946ef0850d488da1c9019f3a9752a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "helvum-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1769167046,
+        "narHash": "sha256-gu3njSwYKfJQOFviZtmPbD2uVrzwZOS9Pfw9ailpk/s=",
+        "ref": "refs/heads/kank/config",
+        "rev": "cfdbe63d6b4a4519e70a39c53b048db01ded95aa",
+        "revCount": 209,
+        "type": "git",
+        "url": "ssh://git@github.com/AudioStreamingPlatform/Helvum.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@github.com/AudioStreamingPlatform/Helvum.git"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -148,6 +182,28 @@
         "url": "https://github.com/kaspernyhus/lazylog.git"
       }
     },
+    "nix-github-actions": {
+      "inputs": {
+        "nixpkgs": [
+          "openconnect-sso",
+          "poetry2nix",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1703863825,
+        "narHash": "sha256-rXwqjtwiGKJheXB43ybM8NwWB8rO2dSRrEqes0S7F5Y=",
+        "owner": "nix-community",
+        "repo": "nix-github-actions",
+        "rev": "5163432afc817cf8bd1f031418d1869e4c9d5547",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "nix-github-actions",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1772773019,
@@ -164,6 +220,96 @@
         "type": "github"
       }
     },
+    "nixpkgs-openconnect-sso": {
+      "locked": {
+        "lastModified": 1716361217,
+        "narHash": "sha256-mzZDr00WUiUXVm1ujBVv6A0qRd8okaITyUp4ezYRgc4=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "46397778ef1f73414b03ed553a3368f0e7e33c2f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "46397778ef1f73414b03ed553a3368f0e7e33c2f",
+        "type": "github"
+      }
+    },
+    "openconnect-sso": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": [
+          "nixpkgs-openconnect-sso"
+        ],
+        "poetry2nix": "poetry2nix"
+      },
+      "locked": {
+        "lastModified": 1716831118,
+        "narHash": "sha256-38jjxX49fimjDnp88tdAGNjVuo/7kyouOOhsuFhRTSc=",
+        "owner": "jcszymansk",
+        "repo": "openconnect-sso",
+        "rev": "392b78e83d1ab5101920187cc4f02b4667aa8b4e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "jcszymansk",
+        "repo": "openconnect-sso",
+        "type": "github"
+      }
+    },
+    "poetry2nix": {
+      "inputs": {
+        "flake-utils": [
+          "openconnect-sso",
+          "flake-utils"
+        ],
+        "nix-github-actions": "nix-github-actions",
+        "nixpkgs": [
+          "openconnect-sso",
+          "nixpkgs"
+        ],
+        "systems": "systems_4",
+        "treefmt-nix": "treefmt-nix"
+      },
+      "locked": {
+        "lastModified": 1715251496,
+        "narHash": "sha256-vRBfJCKvJtu5sYev56XStirA3lAOPv0EkoEV2Nfc+tc=",
+        "owner": "nix-community",
+        "repo": "poetry2nix",
+        "rev": "291a863e866972f356967d0a270b259f46bf987f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "ref": "2024.5.939250",
+        "repo": "poetry2nix",
+        "type": "github"
+      }
+    },
+    "remote-helvum": {
+      "inputs": {
+        "helvum-src": "helvum-src",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "rust-overlay": "rust-overlay_2",
+        "utils": "utils_2"
+      },
+      "locked": {
+        "lastModified": 1778657100,
+        "narHash": "sha256-foHy7LxQt9MKvFQY0u0SET/NxDpZ0fUfk+Im8J/glto=",
+        "owner": "AudioStreamingPlatform",
+        "repo": "helvum-layout-config",
+        "rev": "afc6670912382c7d980b29b77e305de08694b162",
+        "type": "github"
+      },
+      "original": {
+        "owner": "AudioStreamingPlatform",
+        "repo": "helvum-layout-config",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "agenix": "agenix",
@@ -171,13 +317,37 @@
         "disko": "disko",
         "home-manager": "home-manager_2",
         "lazylog": "lazylog",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "nixpkgs-openconnect-sso": "nixpkgs-openconnect-sso",
+        "openconnect-sso": "openconnect-sso",
+        "remote-helvum": "remote-helvum"
       }
     },
     "rust-overlay": {
       "inputs": {
         "nixpkgs": [
           "context",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1778555852,
+        "narHash": "sha256-55EmwooVAS4UpA0oWd5wilKPRqCiHD5BAej9QiNwheY=",
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "rev": "f29b0f7a9f367e0056b716f8aa137cb41e784444",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "rust-overlay_2": {
+      "inputs": {
+        "nixpkgs": [
+          "remote-helvum",
           "nixpkgs"
         ]
       },
@@ -225,9 +395,93 @@
         "type": "github"
       }
     },
+    "systems_3": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    "systems_4": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "id": "systems",
+        "type": "indirect"
+      }
+    },
+    "systems_5": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    "treefmt-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "openconnect-sso",
+          "poetry2nix",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1715940852,
+        "narHash": "sha256-wJqHMg/K6X3JGAE9YLM0LsuKrKb4XiBeVaoeMNlReZg=",
+        "owner": "numtide",
+        "repo": "treefmt-nix",
+        "rev": "2fba33a182602b9d49f0b2440513e5ee091d838b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "treefmt-nix",
+        "type": "github"
+      }
+    },
     "utils": {
       "inputs": {
         "systems": "systems_2"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "utils_2": {
+      "inputs": {
+        "systems": "systems_5"
       },
       "locked": {
         "lastModified": 1731533236,
