@@ -38,6 +38,7 @@ in
         "force_default_wallpaper" = 0;
         "disable_hyprland_logo" = "true";
         vrr = 1;
+        initial_workspace_tracking = 2;
       };
 
       animations = {
