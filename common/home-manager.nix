@@ -48,6 +48,37 @@
 
   programs.firefox.enable = true;
 
+  programs.obsidian = {
+    enable = true;
+    vaults."repositories/personal/vault".enable = true;
+
+    defaultSettings = {
+      app = {
+        defaultViewMode = "preview";
+        livePreview = true;
+        readableLineLength = true;
+        showLineNumber = true;
+        tabSize = 4;
+      };
+
+      corePlugins = [
+        "bookmarks"
+        "daily-notes"
+        "templates"
+        "command-palette"
+        "file-explorer"
+        "sync"
+      ];
+
+      communityPlugins = [
+      ];
+
+      hotkeys = {
+          "command-palette:open" = [ { key = "F1"; } ];
+      };
+    };
+  };
+
   imports = [
     ./nvim/nvim.nix
     ./bash/bash.nix

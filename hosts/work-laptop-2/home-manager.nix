@@ -6,6 +6,9 @@
   inputs,
   ...
 }:
+let
+
+in
 {
   imports = [ ../../common/home-manager.nix ];
 
@@ -27,6 +30,8 @@
       # log viewer
       inputs.lazylog.packages.${pkgs.system}.default
       inputs.context.packages.${pkgs.system}.default
+      inputs.remote-helvum.packages.${pkgs.system}.default
+      inputs.openconnect-sso.packages.${pkgs.system}.openconnect-sso
     ];
   };
 
@@ -34,5 +39,9 @@
   wayland.windowManager.hyprland.extraConfig = pkgs.lib.mkForce ''
     monitor=eDP-1,preferred,auto,1
     monitor=DP-8,preferred,auto,1
+
+    exec-once = [workspace 1 silent] obsidian
+    exec-once = [workspace 2 silent] firefox
+    exec-once = [workspace 3 silent] microsoft-edge
   '';
 }

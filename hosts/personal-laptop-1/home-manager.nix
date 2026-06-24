@@ -33,5 +33,8 @@
     misc {
         vrr = 0
     }
+
+    exec-once = [workspace 1 silent] obsidian
+    exec-once = [workspace 2 silent] firefox
   '';
 }
