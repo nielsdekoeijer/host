@@ -70,9 +70,14 @@ in
   # work-specific system packages
   environment.systemPackages = [
     pkgs.avahi
+    pkgs.wl-screenrec
+    pkgs.slurp
     (pkgs.writeShellScriptBin "show-products" ''
       ${pkgs.avahi}/bin/avahi-browse -rtp _bangolufsen._tcp \
         | ${pkgs.gawk}/bin/awk -F';' '/^=/ && !seen[$4,$8]++ {print $4, $8}'
+    '')
+    (pkgs.writeShellScriptBin "screen-record" ''
+      wl-screenrec -g "$(slurp)" -f my_recording.mp4
     '')
   ];
 

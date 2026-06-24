@@ -32,11 +32,11 @@
         "utils": "utils"
       },
       "locked": {
-        "lastModified": 1778582216,
-        "narHash": "sha256-Nh4RwzTluAWkTyF7b3U/9DVU9WmeY/sxsU9RniC8gZ4=",
+        "lastModified": 1778917685,
+        "narHash": "sha256-zxwt27+y0K4Rj6M37JcLLS3dvALYxPFI4woSBrut6iU=",
         "ref": "refs/heads/main",
-        "rev": "328dae7636786e09b82bb83d3abceed00effe2ac",
-        "revCount": 3,
+        "rev": "ca1bd88e92e777cd7f76069385570af372650919",
+        "revCount": 6,
         "type": "git",
         "url": "https://github.com/nielsdekoeijer/context.git"
       },
