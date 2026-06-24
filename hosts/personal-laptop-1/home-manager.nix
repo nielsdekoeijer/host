@@ -3,6 +3,7 @@
   pkgs,
   user,
   stateVersion,
+  inputs,
   ...
 }:
 {
@@ -20,6 +21,9 @@
       pkgs.obsidian
       pkgs.wofi
       pkgs.runelite
+      pkgs.beancount
+      pkgs.fava
+      inputs.context.packages.${pkgs.system}.default
     ];
   };
 
