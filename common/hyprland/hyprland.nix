@@ -85,6 +85,7 @@ in
         "$mod, 9, workspace, 9"
 
         "$mod SHIFT, F, togglefloating"
+
         "$mod SHIFT, H, swapwindow, l"
         "$mod SHIFT, L, swapwindow, r"
         "$mod SHIFT, K, swapwindow, u"
@@ -99,6 +100,9 @@ in
         "$mod SHIFT, 7, movetoworkspace, 7"
         "$mod SHIFT, 8, movetoworkspace, 8"
         "$mod SHIFT, 9, movetoworkspace, 9"
+
+
+        "$mod SHIFT, M, exec, toggle-laptop-monitor"
       ];
     };
 
