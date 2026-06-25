@@ -85,7 +85,8 @@ in
 
   programs.obsidian = {
     enable = true;
-    vaults."repositories/personal/vault".enable = true;
+    vaults."default".enable = true;
+    vaults."default".target = "repositories/personal/vault";
 
     defaultSettings = {
       app = {
