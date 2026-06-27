@@ -60,6 +60,22 @@ in
     pkgs.swww
     pkgs.lazygit
 
+    # monitor script
+    (pkgs.writeShellScriptBin "toggle-laptop-monitor" ''
+      LAPTOP_MON=$(hyprctl monitors all | awk '/Monitor eDP/ {print $2}' | head -n 1)
+
+      if [ -z "$LAPTOP_MON" ]; then
+        exit 1
+      fi
+
+      # Check if it is currently active in the standard monitors list
+      if hyprctl monitors | grep -q "$LAPTOP_MON"; then
+        hyprctl keyword monitor "$LAPTOP_MON,disable"
+      else
+        hyprctl keyword monitor "$LAPTOP_MON,preferred,auto,1"
+      fi
+    '')
+
     # typst
     pkgs.typst
 

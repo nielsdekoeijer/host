@@ -26,6 +26,8 @@ in
       pkgs.croc
       pkgs.uv
       pkgs.gh
+      pkgs.gdb
+      pkgs.liburing
 
       # log viewer
       inputs.lazylog.packages.${pkgs.system}.default
