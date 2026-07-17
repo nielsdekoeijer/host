@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   programs.neovim = {
     enable = true;
@@ -12,6 +12,16 @@
     # extra things to make things work
     extraPackages = [
       pkgs.ripgrep
+      # Nasty fucking hack to make clangd work at work
+      (lib.hiPrio (
+        pkgs.writeShellScriptBin "clangd" ''
+          args=()
+          if [ -n "''${CLANGD_QUERY_DRIVER-}" ]; then
+            args+=("--query-driver=''${CLANGD_QUERY_DRIVER}")
+          fi
+          exec ${pkgs.llvmPackages_21.clang-unwrapped}/bin/clangd "''${args[@]}" "$@"
+        ''
+      ))
       pkgs.llvmPackages_21.clang-tools
       pkgs.nixfmt
       pkgs.nixd
@@ -21,6 +31,7 @@
       pkgs.idris2Packages.idris2Lsp
       pkgs.ty
       pkgs.ruff
+      pkgs.gh
     ];
 
     # plugins
@@ -51,6 +62,7 @@
 
       # async helper
       pkgs.vimPlugins.plenary-nvim
+      pkgs.vimPlugins.nvim-web-devicons
     ];
 
     # extra lua
@@ -72,11 +84,91 @@
       vim.opt.signcolumn = "yes"
 
       -- diagnostics
+      vim.opt.updatetime = 300
       vim.diagnostic.config{
-        virtual_text = true,
+        virtual_text = false,
+        virtual_lines = { current_line = true },
         signs        = true,
         underline    = true,
+        severity_sort = true,
+        float = { border = 'rounded', source = true },
       }
+      -- clangd: switch between source and header (clangd protocol extension)
+      local function switch_source_header()
+        local client = vim.lsp.get_clients({ bufnr = 0, name = 'clangd' })[1]
+        if not client then
+          return vim.notify('clangd not attached', vim.log.levels.WARN)
+        end
+        client:request('textDocument/switchSourceHeader',
+          vim.lsp.util.make_text_document_params(0),
+          function(err, result)
+            if err then return vim.notify(tostring(err), vim.log.levels.ERROR) end
+            if not result then
+              return vim.notify('no corresponding file', vim.log.levels.WARN)
+            end
+            vim.cmd.edit(vim.uri_to_fname(result))
+          end, 0)
+      end
+
+      vim.api.nvim_create_autocmd('LspAttach', {
+        callback = function(ev)
+          local buf = ev.buf
+          local client = vim.lsp.get_client_by_id(ev.data.client_id)
+          local tb = require('telescope.builtin')
+
+          local function map(mode, lhs, rhs, desc)
+            vim.keymap.set(mode, lhs, rhs, { buffer = buf, desc = desc })
+          end
+
+          -- navigation (telescope pickers beat the quickfix list)
+          map('n', 'gd',  tb.lsp_definitions,       'Goto definition')
+          map('n', 'grr', tb.lsp_references,        'References')
+          map('n', 'gri', tb.lsp_implementations,   'Implementations')
+          map('n', 'grt', tb.lsp_type_definitions,  'Type definition')
+          map('n', 'gO',  tb.lsp_document_symbols,  'Document symbols')
+          map('n', '<leader>fs', tb.lsp_dynamic_workspace_symbols, 'Workspace symbols')
+          map('n', '<leader>fd', function()
+            tb.diagnostics{ severity_bound = vim.diagnostic.severity.WARN }
+          end, 'Workspace diagnostics')
+
+          -- hierarchies
+          map('n', '<leader>ci', vim.lsp.buf.incoming_calls, 'Incoming calls')
+          map('n', '<leader>co', vim.lsp.buf.outgoing_calls, 'Outgoing calls')
+          map('n', '<leader>cs', function() vim.lsp.buf.typehierarchy('subtypes') end,   'Subtypes')
+          map('n', '<leader>cp', function() vim.lsp.buf.typehierarchy('supertypes') end, 'Supertypes')
+
+          -- clangd extras
+          map('n', '<leader>o', switch_source_header, 'Switch source/header')
+
+          -- inlay hints (toggle: always-on is noise)
+          map('n', '<leader>ih', function()
+            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled{ bufnr = buf }, { bufnr = buf })
+          end, 'Toggle inlay hints')
+
+          -- diagnostics
+          map('n', ']e', function()
+            vim.diagnostic.jump{ count = 1, severity = vim.diagnostic.severity.ERROR }
+          end, 'Next error')
+          map('n', '[e', function()
+            vim.diagnostic.jump{ count = -1, severity = vim.diagnostic.severity.ERROR }
+          end, 'Prev error')
+
+          -- format
+          map({ 'n', 'v' }, '<leader>fm', function() vim.lsp.buf.format{ async = true } end, 'Format')
+
+          -- highlight other uses of the symbol under the cursor
+          if client and client:supports_method('textDocument/documentHighlight') then
+            local grp = vim.api.nvim_create_augroup('lsp_hl_' .. buf, { clear = true })
+            vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+              group = grp, buffer = buf, callback = vim.lsp.buf.document_highlight,
+            })
+            vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
+              group = grp, buffer = buf, callback = vim.lsp.buf.clear_references,
+            })
+          end
+        end,
+      })
+
 
       -- leader
       vim.g.mapleader = " "
@@ -216,8 +308,17 @@
           'clangd',
           '--clang-tidy',
           '--background-index',
+          '--background-index-priority=normal',
           '--offset-encoding=utf-8',
+          '--completion-style=detailed',
+          '--header-insertion=never',
+          '--all-scopes-completion',
+          '--pch-storage=memory',
+          '--limit-references=2000',
+          '--limit-results=200',
+          '-j=8',
         },
+        capabilities = capabilities,
         root_markers = { '.clangd', 'compile_commands.json' },
         filetypes = { 'c', 'cpp' },
       }
@@ -267,6 +368,9 @@
           end, {expr=true, desc = 'Previous Git hunk'})
         end
       }
+
+      -- localleader defaults to \, which is miserable to type
+      vim.g.maplocalleader = ","
     '';
   };
 }
