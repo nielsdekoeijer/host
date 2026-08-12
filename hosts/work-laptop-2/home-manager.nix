@@ -28,6 +28,7 @@ in
       pkgs.gh
       pkgs.gdb
       pkgs.liburing
+      pkgs.signal-desktop
 
       # log viewer
       inputs.lazylog.packages.${pkgs.system}.default

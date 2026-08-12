@@ -73,6 +73,7 @@ in
         "$mod, L, movefocus, r"
         "$mod, K, movefocus, u"
         "$mod, J, movefocus, d"
+        "$mod, F, fullscreen"
 
         "$mod, 1, workspace, 1"
         "$mod, 2, workspace, 2"
