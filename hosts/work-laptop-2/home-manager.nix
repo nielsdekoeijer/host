@@ -38,6 +38,17 @@ in
     ];
   };
 
+  xdg.desktopEntries.pijpkijk-pick = {
+    name = "pijpkijk (pick device)";
+    comment = "Browse B&O products and open the remote PipeWire graph";
+    exec = "pijpkijk-pick";
+    terminal = false;
+    categories = [
+      "Audio"
+      "Utility"
+    ];
+  };
+
   # monitor at work
   wayland.windowManager.hyprland.extraConfig = pkgs.lib.mkForce ''
     monitor=eDP-1,preferred,auto,1

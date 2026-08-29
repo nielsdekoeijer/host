@@ -8,6 +8,7 @@
   hostName,
   stateVersion,
   lib,
+  inputs,
   ...
 }:
 {
@@ -92,9 +93,9 @@
     kernelModules = [
       "uinput"
       "kvm-intel"
-      "cp210x"   
-      "ftdi_sio" 
-      "ch341"    
+      "cp210x"
+      "ftdi_sio"
+      "ch341"
     ];
   };
 

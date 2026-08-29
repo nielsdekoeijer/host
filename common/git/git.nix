@@ -1,9 +1,23 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
+let
+  nvim = "${config.programs.neovim.finalPackage}/bin/nvim";
+in
 {
   programs.git = {
     enable = true;
 
     userName = "Niels de Koeijer";
+
+    extraConfig = {
+      diff.tool = "nvimdiff";
+      merge.tool = "nvimdiff";
+      difftool.prompt = false;
+      mergetool.prompt = false;
+      mergetool.keepBackup = false;
+
+      difftool."nvimdiff".cmd = ''${nvim} -d "$LOCAL" "$REMOTE"'';
+      mergetool."nvimdiff".cmd = ''${nvim} -d "$LOCAL" "$BASE" "$REMOTE" "$MERGED" -c 'wincmd J' '';
+    };
 
     includes = [
       {

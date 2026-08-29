@@ -182,6 +182,24 @@
         "url": "https://github.com/kaspernyhus/lazylog.git"
       }
     },
+    "msdf-atlas-gen": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1778948996,
+        "narHash": "sha256-+iMf83v0FXB7rJOIOxBpokWa8njOYQjFTlQXNHiojDU=",
+        "ref": "refs/heads/master",
+        "rev": "6148900d59423059bafde2f51a0cb303184404bd",
+        "revCount": 57,
+        "submodules": true,
+        "type": "git",
+        "url": "https://github.com/Chlumsky/msdf-atlas-gen"
+      },
+      "original": {
+        "submodules": true,
+        "type": "git",
+        "url": "https://github.com/Chlumsky/msdf-atlas-gen"
+      }
+    },
     "nix-github-actions": {
       "inputs": {
         "nixpkgs": [
@@ -258,6 +276,29 @@
         "type": "github"
       }
     },
+    "pijpkijk": {
+      "inputs": {
+        "msdf-atlas-gen": "msdf-atlas-gen",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "utils": "utils_2",
+        "zig2nix": "zig2nix"
+      },
+      "locked": {
+        "lastModified": 1788018582,
+        "narHash": "sha256-ASpEwPkWOkojjl4Pf16naYY5aoPQeJLgfQgodoNvikQ=",
+        "owner": "nielsdekoeijer",
+        "repo": "pijpkijk",
+        "rev": "6744c2635d913f9b0378b9a689ef77b8f9b71091",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nielsdekoeijer",
+        "repo": "pijpkijk",
+        "type": "github"
+      }
+    },
     "poetry2nix": {
       "inputs": {
         "flake-utils": [
@@ -294,7 +335,7 @@
           "nixpkgs"
         ],
         "rust-overlay": "rust-overlay_2",
-        "utils": "utils_2"
+        "utils": "utils_3"
       },
       "locked": {
         "lastModified": 1778657100,
@@ -320,6 +361,7 @@
         "nixpkgs": "nixpkgs",
         "nixpkgs-openconnect-sso": "nixpkgs-openconnect-sso",
         "openconnect-sso": "openconnect-sso",
+        "pijpkijk": "pijpkijk",
         "remote-helvum": "remote-helvum"
       }
     },
@@ -439,6 +481,21 @@
         "type": "github"
       }
     },
+    "systems_6": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
     "treefmt-nix": {
       "inputs": {
         "nixpkgs": [
@@ -494,6 +551,49 @@
       "original": {
         "owner": "numtide",
         "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "utils_3": {
+      "inputs": {
+        "systems": "systems_6"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "zig2nix": {
+      "inputs": {
+        "flake-utils": [
+          "pijpkijk",
+          "utils"
+        ],
+        "nixpkgs": [
+          "pijpkijk",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1787987739,
+        "narHash": "sha256-SdmHQxe1lp2mwcjjQiJGnmAgbv85TcSrnfBFhE1+D1w=",
+        "owner": "Cloudef",
+        "repo": "zig2nix",
+        "rev": "212a188f5ffd07a0a3676260693670cd4f2c9f46",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Cloudef",
+        "repo": "zig2nix",
         "type": "github"
       }
     }

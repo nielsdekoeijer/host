@@ -5,6 +5,7 @@
   hostName,
   stateVersion,
   lib,
+  inputs,
   ...
 }:
 let
@@ -23,6 +24,57 @@ let
   };
 
   kernelPackages = pkgs.linuxPackagesFor linux;
+
+  pijpkijk = inputs.pijpkijk.packages.${pkgs.system}.default;
+
+  pijpkijk-pick = pkgs.writeShellScriptBin "pijpkijk-pick" ''
+    set -euo pipefail
+
+    # Discover B&O products via mDNS -> "name<TAB>ip" (IPv4 only, deduped)
+    mapfile -t entries < <(
+      ${pkgs.avahi}/bin/avahi-browse -rtp _bangolufsen._tcp \
+        | ${pkgs.gawk}/bin/awk -F';' \
+            '/^=/ && $3=="IPv4" && !seen[$4,$8]++ {print $4 "\t" $8}'
+    )
+
+    if [ "''${#entries[@]}" -eq 0 ]; then
+      printf 'No Bang & Olufsen products found\n' \
+        | ${pkgs.wofi}/bin/wofi --dmenu --prompt pijpkijk >/dev/null || true
+      exit 0
+    fi
+
+    # Show the results in the dmenu; user picks one
+    choice=$(printf '%s\n' "''${entries[@]}" \
+      | ${pkgs.wofi}/bin/wofi --dmenu --prompt pijpkijk)
+    [ -z "''${choice:-}" ] && exit 0
+
+    # Pull the IP back out of the chosen line (last tab-separated field)
+    ip=$(printf '%s' "$choice" | ${pkgs.gawk}/bin/awk -F'\t' '{print $NF}')
+    [ -z "$ip" ] && exit 1
+
+    # Forward the remote PipeWire socket and launch pijpkijk against it
+    socket_dir=$(mktemp -d -p /tmp pijpkijk.XXXXXX)
+    ssh_pid=""
+    cleanup() {
+      [ -n "$ssh_pid" ] && kill "$ssh_pid" 2>/dev/null || true
+      rm -rf "$socket_dir"
+    }
+    trap cleanup EXIT
+
+    ${pkgs.openssh}/bin/ssh -nNT \
+      -o StrictHostKeyChecking=accept-new \
+      -L "$socket_dir/pipewire-0:/run/pipewire/pipewire-0" \
+      "root@$ip" &
+    ssh_pid=$!
+
+    # Wait for the forwarded socket to appear (up to ~5s)
+    for _ in $(seq 1 50); do
+      [ -S "$socket_dir/pipewire-0" ] && break
+      sleep 0.1
+    done
+
+    PIPEWIRE_RUNTIME_DIR="$socket_dir" ${lib.getExe pijpkijk}
+  '';
 in
 {
 
@@ -72,6 +124,8 @@ in
     pkgs.avahi
     pkgs.wl-screenrec
     pkgs.slurp
+    pijpkijk
+    pijpkijk-pick
     (pkgs.writeShellScriptBin "show-products" ''
       ${pkgs.avahi}/bin/avahi-browse -rtp _bangolufsen._tcp \
         | ${pkgs.gawk}/bin/awk -F';' '/^=/ && !seen[$4,$8]++ {print $4, $8}'

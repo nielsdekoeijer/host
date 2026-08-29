@@ -132,6 +132,44 @@ in
     };
   };
 
+  programs.lazygit = {
+    enable = true;
+    settings = {
+      gui = {
+        nerdFontsVersion = "3";
+        showDivergenceFromBaseBranch = "arrowAndNumber";
+        # aurora-ish theme
+        theme = {
+          activeBorderColor = [
+            "#be9af7"
+            "bold"
+          ]; # purple
+          inactiveBorderColor = [ "#645775" ];
+          selectedLineBgColor = [ "#3f4060" ];
+          optionsTextColor = [ "#6690c4" ];
+          cherryPickedCommitBgColor = [ "#3f4060" ];
+          cherryPickedCommitFgColor = [ "#be9af7" ];
+          unstagedChangesColor = [ "#ff5874" ];
+          defaultFgColor = [ "#e7d3fb" ];
+        };
+        authorColors = {
+          "*" = "#be9af7";
+        };
+      };
+
+      git = {
+        parseEmoji = true;
+      };
+
+      os = {
+        # open files back in the SAME nvim when launched from inside it
+        editPreset = "nvim";
+      };
+      disableStartupPopups = true;
+      promptToReturnFromSubprocess = false;
+    };
+  };
+
   imports = [
     ./nvim/nvim.nix
     ./bash/bash.nix

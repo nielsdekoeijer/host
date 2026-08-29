@@ -41,6 +41,7 @@
 
       # navigation
       pkgs.vimPlugins.telescope-nvim
+      pkgs.vimPlugins.lazygit-nvim
 
       # git
       pkgs.vimPlugins.gitsigns-nvim
@@ -186,6 +187,7 @@
       vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
       vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
       vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
+      vim.keymap.set('n', '<leader>fr', builtin.oldfiles, { desc = 'Recent files' })
 
       -- lsp
       vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
@@ -351,8 +353,22 @@
           end
 
           -- Keymaps for Git Blame
-          map('n', '<leader>gb', function() gs.blame_line{full=true} end, { desc = 'Git Blame floating window' })
-          map('n', '<leader>tb', gs.toggle_current_line_blame, { desc = 'Toggle inline Git Blame' })
+          vim.keymap.set('n', '<leader>gb', function()
+            require('gitsigns').blame()
+          end, { desc = 'Git blame (whole file)' })
+
+          vim.api.nvim_create_autocmd('FileType', {
+            pattern = 'gitsigns*',   -- matches gitsigns-blame (and any future gitsigns ft)
+            callback = function(ev)
+              vim.keymap.set('n', 'q', '<cmd>close<CR>',
+                { buffer = ev.buf, nowait = true, desc = 'Close blame' })
+              vim.keymap.set('n', '<Esc>', '<cmd>close<CR>',
+                { buffer = ev.buf, nowait = true, desc = 'Close blame' })
+            end,
+          })
+
+          -- Keymaps for lazygit
+          vim.keymap.set('n', '<leader>gg', '<cmd>LazyGit<CR>', { desc = 'LazyGit' })
           
           -- Navigation for git hunks (optional but handy)
           map('n', ']c', function()
