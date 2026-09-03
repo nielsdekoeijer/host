@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -exu
+set -eu
 HOSTNAME=$(hostname)
 
 # Check if GITHUB_TOKEN is set and not empty
@@ -9,7 +9,7 @@ if [[ -n "${GITHUB_TOKEN:-}" ]]; then
   NIX_OPTS=(--option access-tokens "github.com=${GITHUB_TOKEN}")
 fi
 
-if [[ -f /etc/NIXOS ]]; then
+if command -v nixos-rebuild >/dev/null 2>&1; then
   # Pass the options to nixos-rebuild
   sudo nixos-rebuild switch --show-trace "${NIX_OPTS[@]}" --flake ".#${HOSTNAME}"
 else

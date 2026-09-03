@@ -67,7 +67,7 @@
   environment.systemPackages = [ pkgs.man-pages ];
   documentation = {
     dev.enable = true;
-    man.generateCaches = true;
+    man.generateCaches = false;
     nixos.includeAllModules = true;
   };
 

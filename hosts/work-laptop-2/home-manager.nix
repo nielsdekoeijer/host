@@ -54,8 +54,8 @@ in
     monitor=eDP-1,preferred,auto,1
     monitor=DP-8,preferred,auto,1
 
-    exec-once = [workspace 1 silent] obsidian
-    exec-once = [workspace 2 silent] firefox
-    exec-once = [workspace 3 silent] microsoft-edge
+    exec-once = [workspace 9 silent] obsidian
+    exec-once = [workspace 9 silent] microsoft-edge
+    exec-once = [workspace 8 silent] firefox
   '';
 }

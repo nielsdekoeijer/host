@@ -286,11 +286,11 @@
         "zig2nix": "zig2nix"
       },
       "locked": {
-        "lastModified": 1788018582,
-        "narHash": "sha256-ASpEwPkWOkojjl4Pf16naYY5aoPQeJLgfQgodoNvikQ=",
+        "lastModified": 1788177890,
+        "narHash": "sha256-S/oq3VZn+XAh8IIJEBjhMTFWf00pMzHrx3ZsJnTzfv0=",
         "owner": "nielsdekoeijer",
         "repo": "pijpkijk",
-        "rev": "6744c2635d913f9b0378b9a689ef77b8f9b71091",
+        "rev": "4e01704e839e7365a4430ebd9d899bcedb0aa34e",
         "type": "github"
       },
       "original": {

@@ -30,29 +30,27 @@ let
   pijpkijk-pick = pkgs.writeShellScriptBin "pijpkijk-pick" ''
     set -euo pipefail
 
-    # Discover B&O products via mDNS -> "name<TAB>ip" (IPv4 only, deduped)
-    mapfile -t entries < <(
+    # mDNS discovery on the local link -> "name | ip" (IPv4, deduped)
+    mapfile -t mdns_hosts < <(
       ${pkgs.avahi}/bin/avahi-browse -rtp _bangolufsen._tcp \
         | ${pkgs.gawk}/bin/awk -F';' \
-            '/^=/ && $3=="IPv4" && !seen[$4,$8]++ {print $4 "\t" $8}'
+            '/^=/ && $3=="IPv4" && !seen[$4,$8]++ {print $4 " | " $8}'
     )
 
-    if [ "''${#entries[@]}" -eq 0 ]; then
-      printf 'No Bang & Olufsen products found\n' \
-        | ${pkgs.wofi}/bin/wofi --dmenu --prompt pijpkijk >/dev/null || true
-      exit 0
-    fi
+    entries=( "''${mdns_hosts[@]}" "Manual entry…" )
 
-    # Show the results in the dmenu; user picks one
     choice=$(printf '%s\n' "''${entries[@]}" \
       | ${pkgs.wofi}/bin/wofi --dmenu --prompt pijpkijk)
     [ -z "''${choice:-}" ] && exit 0
 
-    # Pull the IP back out of the chosen line (last tab-separated field)
-    ip=$(printf '%s' "$choice" | ${pkgs.gawk}/bin/awk -F'\t' '{print $NF}')
-    [ -z "$ip" ] && exit 1
+    if [ "$choice" = "Manual entry…" ]; then
+      # ask for an IP (wofi returns whatever you type)
+      ip=$(: | ${pkgs.wofi}/bin/wofi --dmenu --prompt ip)
+    else
+      ip=$(printf '%s' "$choice" | ${pkgs.gnused}/bin/sed 's/.*| *//')
+    fi
+    [ -z "''${ip:-}" ] && exit 0
 
-    # Forward the remote PipeWire socket and launch pijpkijk against it
     socket_dir=$(mktemp -d -p /tmp pijpkijk.XXXXXX)
     ssh_pid=""
     cleanup() {
@@ -67,7 +65,6 @@ let
       "root@$ip" &
     ssh_pid=$!
 
-    # Wait for the forwarded socket to appear (up to ~5s)
     for _ in $(seq 1 50); do
       [ -S "$socket_dir/pipewire-0" ] && break
       sleep 0.1
@@ -98,6 +95,7 @@ in
     ../../common/intune/intune.nix
     ../../common/hardware/nvidia.nix
     ./wireguard.nix
+    ./netboot.nix
   ];
 
   # nix-ld libraries for precompiled binaries

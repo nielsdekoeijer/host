@@ -5,6 +5,7 @@ in
 {
   programs.git = {
     enable = true;
+    lfs.enable = true;
 
     userName = "Niels de Koeijer";
 
