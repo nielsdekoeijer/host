@@ -35,6 +35,8 @@ in
       inputs.context.packages.${pkgs.system}.default
       inputs.remote-helvum.packages.${pkgs.system}.default
       inputs.openconnect-sso.packages.${pkgs.system}.openconnect-sso
+      inputs.cimple.packages.${pkgs.system}.default
+      inputs.cimple-fill.packages.${pkgs.system}.default
     ];
   };
 

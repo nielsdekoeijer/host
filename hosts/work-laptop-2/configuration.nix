@@ -95,8 +95,13 @@ in
     ../../common/intune/intune.nix
     ../../common/hardware/nvidia.nix
     ./wireguard.nix
-    ./netboot.nix
+    ../../common/mozart-netboot.nix
   ];
+
+  services.mozart-netboot = {
+    enable = true;
+    inherit user;
+  };
 
   # nix-ld libraries for precompiled binaries
   programs.nix-ld.libraries = with pkgs; [ stdenv.cc.cc ];

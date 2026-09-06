@@ -42,6 +42,16 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    cimple = {
+      url = "git+ssh://git@github.com/nielsdekoeijer/cimple.git";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    cimple-fill = {
+      url = "git+ssh://git@github.com/nielsdekoeijer/cimple-fill.git";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nixpkgs-openconnect-sso.url = "github:nixos/nixpkgs/46397778ef1f73414b03ed553a3368f0e7e33c2f";
     openconnect-sso = {
       url = "github:jcszymansk/openconnect-sso";
