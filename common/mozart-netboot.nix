@@ -72,27 +72,50 @@ let
     Opens an FHS-compatible shell for the Mozart Yocto SDK and netboot tools.
     The interactive prompt is prefixed with [yocto-sdk-env].
 
+    Values you must set:
+
+         export MOZART_WORKSPACE="/path/to/mozart-workspace"
+         export MOZART_LINUX_PATH="/path/to/linux-mozart"
+         export MOZART_BUILD_TYPE="imx8-base"
+         export MOZART_SDK_TAG="6.3.0.1019"
+
+    MOZART_SDK_TAG is the four-part release tag from the mozart-imx8m-sdk
+    repository. Use the SDK release intended for your work; it may have the
+    same version as MOZART_TAG, but that is not guaranteed. Check a candidate:
+
+         gh release view "$MOZART_SDK_TAG" --repo AudioStreamingPlatform/mozart-imx8m-sdk
+
+    Values derived from the checked-out workspace:
+
+         export MOZART_TAG=$(git -C "$MOZART_WORKSPACE" describe --tags --exact-match --match "$(cat "$MOZART_WORKSPACE/VERSION").*" HEAD)
+         export MOZART_BRANCH=$(git -C "$MOZART_WORKSPACE" branch --show-current)
+         export SERIES_INC="$MOZART_WORKSPACE/layers/meta-mozart/meta-mozart-bsp/recipes-kernel/linux/linux-mozart-6.4.7/patches/series.inc"
+         export UMPF_TAG=$(sed -n 's/^# umpf-version: //p' "$SERIES_INC")
+         printf 'branch=%s mozart=%s sdk=%s umpf=%s\n' "$MOZART_BRANCH" "$MOZART_TAG" "$MOZART_SDK_TAG" "$UMPF_TAG"
+
     1. Create and build the Yocto configuration (runs in Symphony/Docker):
 
-         cd <MOZART_WORKSPACE_PATH>
-         ./build.sh -m imx8-dev
+         cd "$MOZART_WORKSPACE"
+         ./build.sh -m "$MOZART_BUILD_TYPE" --dry-run
+         ./scripts/symphony shell
 
-       A complete build is required; --dry-run only creates the configuration.
+         in the shell:
+
+         . ./layers/poky/oe-init-build-env builds/$MOZART_BUILD_TYPE
+         bitbake mozart-non-gva-bundle
+         bitbake devicetree-mozart
+
+         make sure to leave the shell in subsequent steps...!
 
     2. Prepare a Linux checkout with the UMPF tag used by the workspace.
 
-       The netboot script currently uses the Linux 6.4.7 recipe. Read its exact
-       UMPF tag from the workspace instead of guessing or using the newest tag:
-
-         cd <MOZART_WORKSPACE_PATH>
-         SERIES_INC=layers/meta-mozart/meta-mozart-bsp/recipes-kernel/linux/linux-mozart-6.4.7/patches/series.inc
-         UMPF_TAG=$(sed -n 's/^# umpf-version: //p' "$SERIES_INC")
-         printf '%s\n' "$UMPF_TAG"
+       The derived UMPF_TAG above comes from the Linux 6.4.7 recipe used by the
+       netboot script, rather than guessing or using the newest tag.
 
        UMPF rewrites the Linux checkout. Commit or stash any work in it first,
        including untracked files. Then reproduce the workspace's exact kernel:
 
-         cd <LINUX_SOURCE_PATH>
+         cd "$MOZART_LINUX_PATH"
          git fetch --all
          git fetch --tags
          umpf build -i "$UMPF_TAG"
@@ -102,11 +125,11 @@ let
 
     3. Back in this shell, bootstrap the host-side netboot environment:
 
-         cd <MOZART_WORKSPACE_PATH>
-         source ./netboot-bootstrap.sh imx8-dev <SDK_TAG> <LINUX_SOURCE_PATH>
+         cd "$MOZART_WORKSPACE"
+         source ./netboot-bootstrap.sh "$MOZART_BUILD_TYPE" "$MOZART_SDK_TAG" "$MOZART_LINUX_PATH"
 
-       SDK_TAG must contain four numeric components, for example 6.2.0.26.
-       It is a released cross-toolchain version and is NOT the UMPF tag above.
+       MOZART_SDK_TAG is a released cross-toolchain version and is not the
+       slash-separated UMPF_TAG.
 
     4. First-time initialization:
 

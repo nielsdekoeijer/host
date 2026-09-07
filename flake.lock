@@ -32,11 +32,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1788695984,
-        "narHash": "sha256-i2BetnkNY8jhbvBzpED5guQ07EyDgPY/0rx4ZwDrZr0=",
+        "lastModified": 1788712113,
+        "narHash": "sha256-MtWuQlN0xpI6n0Av/N+nvgPJMfxPXaxNgEm+HyjzkhA=",
         "ref": "refs/heads/main",
-        "rev": "494b82b6ffa756bad26d4ca6520e23910223b3a3",
-        "revCount": 3,
+        "rev": "6d301b0a7ce516a7f907f78a65b6987cec7ca54e",
+        "revCount": 7,
         "type": "git",
         "url": "ssh://git@github.com/nielsdekoeijer/cimple.git"
       },
@@ -55,11 +55,11 @@
         "rust-overlay": "rust-overlay_2"
       },
       "locked": {
-        "lastModified": 1788696038,
-        "narHash": "sha256-Cg6EKbNQ5fm75mDR9rTTznjWv6GRsJGt8nY7XO05atg=",
+        "lastModified": 1788712119,
+        "narHash": "sha256-RJi4OQ0LntvK5mc5oiFYBPUgyPqkY9SNRB+3aqVMvdI=",
         "ref": "refs/heads/main",
-        "rev": "07f0e152e88b360f9ab954ad66be17d638602a10",
-        "revCount": 6,
+        "rev": "c9b9bfb63539ebda66d341762138ac476e11acc1",
+        "revCount": 9,
         "type": "git",
         "url": "ssh://git@github.com/nielsdekoeijer/cimple-fill.git"
       },
