@@ -2,6 +2,7 @@
 {
   programs.bash = {
     enable = true;
+    enableCompletion = true;
     bashrcExtra = ''
       EDITOR="nvim"
       VISUAL="nvim"

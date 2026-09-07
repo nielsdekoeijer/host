@@ -65,6 +65,7 @@
 
   # man pages
   environment.systemPackages = [ pkgs.man-pages ];
+  environment.pathsToLink = [ "/share/bash-completion" ];
   documentation = {
     dev.enable = true;
     man.generateCaches = false;
