@@ -1,5 +1,6 @@
 {
   pkgs,
+  inputs,
   user,
   stateVersion,
   ...
@@ -43,6 +44,9 @@ in
   home.packages = [
     # formatters
     pkgs.nixfmt
+
+    # language servers
+    pkgs.clang-tools
 
     # sound
     pkgs.pwvucontrol
@@ -96,6 +100,8 @@ in
     VISUAL = "nvim";
     PAGER = "nvim +Man!";
   };
+
+  programs.omp.enable = true;
 
   programs.firefox.enable = true;
 
@@ -171,6 +177,7 @@ in
   };
 
   imports = [
+    inputs.omp.homeManagerModules.default
     ./nvim/nvim.nix
     ./bash/bash.nix
     ./hyprland/hyprland.nix

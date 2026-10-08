@@ -41,10 +41,11 @@
 
       # navigation
       pkgs.vimPlugins.telescope-nvim
-      pkgs.vimPlugins.lazygit-nvim
+      pkgs.vimPlugins.neogit
 
       # git
       pkgs.vimPlugins.gitsigns-nvim
+      pkgs.vimPlugins.vim-fugitive
 
       # lsp stuff
       pkgs.vimPlugins.nvim-lspconfig
@@ -331,6 +332,15 @@
         settings = { formatterMode = "typstyle" },
       })
 
+      -- Git status, staging, commits, and history
+      require('neogit').setup {}
+      vim.keymap.set('n', '<leader>gg', function()
+        require('neogit').open()
+      end, { desc = 'Neogit status' })
+      -- Fugitive's blame opens commits as navigable Git objects
+      vim.keymap.set('n', '<leader>gb', '<cmd>Git blame<CR>', { desc = 'Git blame (Fugitive)' })
+
+
       -- gitsigns (git integration & blame)
       require('gitsigns').setup {
         -- Enable inline virtual text blame by default
@@ -352,24 +362,6 @@
             vim.keymap.set(mode, l, r, opts)
           end
 
-          -- Keymaps for Git Blame
-          vim.keymap.set('n', '<leader>gb', function()
-            require('gitsigns').blame()
-          end, { desc = 'Git blame (whole file)' })
-
-          vim.api.nvim_create_autocmd('FileType', {
-            pattern = 'gitsigns*',   -- matches gitsigns-blame (and any future gitsigns ft)
-            callback = function(ev)
-              vim.keymap.set('n', 'q', '<cmd>close<CR>',
-                { buffer = ev.buf, nowait = true, desc = 'Close blame' })
-              vim.keymap.set('n', '<Esc>', '<cmd>close<CR>',
-                { buffer = ev.buf, nowait = true, desc = 'Close blame' })
-            end,
-          })
-
-          -- Keymaps for lazygit
-          vim.keymap.set('n', '<leader>gg', '<cmd>LazyGit<CR>', { desc = 'LazyGit' })
-          
           -- Navigation for git hunks (optional but handy)
           map('n', ']c', function()
             if vim.wo.diff then return ']c' end

@@ -16,7 +16,7 @@
     stateVersion = stateVersion;
 
     packages = [
-      pkgs.audacity
+      pkgs.audacity_3
       pkgs.discord
       pkgs.obsidian
       pkgs.wofi

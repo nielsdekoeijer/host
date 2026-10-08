@@ -7,7 +7,20 @@
   ...
 }:
 let
-
+  openconnect-sso = inputs.openconnect-sso.packages.${pkgs.system}.openconnect-sso;
+  openconnect-sso-qtwayland =
+    inputs.nixpkgs-openconnect-sso.legacyPackages.${pkgs.system}.qt6.qtwayland;
+  openconnect-sso-wayland = pkgs.symlinkJoin {
+    name = "openconnect-sso-wayland";
+    paths = [ openconnect-sso ];
+    nativeBuildInputs = [ pkgs.makeWrapper ];
+    postBuild = ''
+      wrapProgram $out/bin/openconnect-sso \
+        --set QT_QUICK_BACKEND software \
+        --set QT_QPA_PLATFORM wayland \
+        --prefix QT_PLUGIN_PATH : "${openconnect-sso-qtwayland}/lib/qt-6/plugins"
+    '';
+  };
 in
 {
   imports = [ ../../common/home-manager.nix ];
@@ -17,7 +30,7 @@ in
     stateVersion = stateVersion;
 
     packages = [
-      pkgs.audacity
+      pkgs.audacity_3
       pkgs.qpwgraph
       pkgs.libreoffice
       pkgs.wf-recorder
@@ -33,8 +46,7 @@ in
       # log viewer
       inputs.lazylog.packages.${pkgs.system}.default
       inputs.context.packages.${pkgs.system}.default
-      inputs.remote-helvum.packages.${pkgs.system}.default
-      inputs.openconnect-sso.packages.${pkgs.system}.openconnect-sso
+      openconnect-sso-wayland
       inputs.cimple.packages.${pkgs.system}.default
       inputs.cimple-fill.packages.${pkgs.system}.default
     ];

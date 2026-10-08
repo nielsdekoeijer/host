@@ -13,7 +13,7 @@
     stateVersion = stateVersion;
 
     packages = [
-      pkgs.audacity
+      pkgs.audacity_3
       pkgs.qpwgraph
       pkgs.libreoffice
       pkgs.wf-recorder

@@ -91,6 +91,7 @@
       "rtsx_pci_sdmmc"
     ];
     kernelPackages = lib.mkDefault pkgs.linuxPackages;
+    kernel.sysctl."kernel.unprivileged_bpf_disabled" = 0;
     kernelModules = [
       "uinput"
       "kvm-intel"
@@ -115,6 +116,7 @@
 
   # display manager + hyprland
   services.displayManager.gdm.enable = true;
+  services.displayManager.defaultSession = "hyprland";
   programs.hyprland.enable = true;
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
