@@ -35,6 +35,9 @@
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
 
+  # removable storage (user-session automount is configured in Home Manager)
+  services.udisks2.enable = true;
+
   # firmware
   hardware.enableAllFirmware = true;
   hardware.enableRedistributableFirmware = true;

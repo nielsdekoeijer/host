@@ -67,7 +67,7 @@ in
     ../../common/configuration.nix
     ../../common/intune/intune.nix
     ../../common/hardware/nvidia.nix
-    ./wireguard.nix
+    ./beoguard.nix
     ../../common/mozart-netboot.nix
   ];
 
@@ -81,6 +81,11 @@ in
 
   # fucking intune
   bogo.intune.enable = true;
+
+  programs.evolution = {
+    enable = true;
+    plugins = [ pkgs.evolution-ews ];
+  };
 
   # dev firewall ports
   networking.firewall.allowedTCPPorts = [

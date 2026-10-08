@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   inputs,
   user,
@@ -100,6 +101,16 @@ in
     VISUAL = "nvim";
     PAGER = "nvim +Man!";
   };
+
+  services.udiskie = {
+    enable = true;
+    automount = true;
+    # Hyprland has no active tray.target; automount must not depend on it.
+    tray = "never";
+  };
+
+  home.file."usb".source =
+    config.lib.file.mkOutOfStoreSymlink "/run/media/${config.home.username}";
 
   programs.omp.enable = true;
 

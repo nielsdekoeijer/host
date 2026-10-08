@@ -23,7 +23,9 @@ let
   };
 in
 {
-  imports = [ ../../common/home-manager.nix ];
+  imports = [
+    ../../common/home-manager.nix
+  ];
 
   home = {
     username = user;
