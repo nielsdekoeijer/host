@@ -32,6 +32,7 @@
     context = {
       url = "git+https://github.com/nielsdekoeijer/context.git";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.rust-overlay.follows = "cimple/rust-overlay";
     };
 
     pijpkijk = {

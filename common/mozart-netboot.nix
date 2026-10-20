@@ -11,11 +11,7 @@ let
   configuredUser = if userExists then config.users.users.${cfg.user} else null;
   home = if cfg.homeDirectory != null then cfg.homeDirectory else configuredUser.home or "/var/empty";
   group = if cfg.group != null then cfg.group else configuredUser.group or "nogroup";
-  nfsRoot = if cfg.nfsRoot != null then cfg.nfsRoot else "${home}/nfsroot";
   tftpRoot = if cfg.tftpRoot != null then cfg.tftpRoot else "${home}/tftpboot";
-  exportLines = lib.concatMapStringsSep "\n" (
-    client: "${nfsRoot} ${client}(rw,no_subtree_check,no_root_squash,async)"
-  ) cfg.exportClients;
 
   umpf = pkgs.stdenvNoCC.mkDerivation {
     pname = "umpf";
@@ -70,6 +66,7 @@ let
     Usage: yocto-sdk-env [--help] [-c COMMAND]
 
     Opens an FHS-compatible shell for the Mozart Yocto SDK and netboot tools.
+    This host provides TFTP only; it does not serve an NFS root filesystem.
     The interactive prompt is prefixed with [yocto-sdk-env].
 
     Values you must set:
@@ -179,11 +176,8 @@ let
     echo "Host IPv4 addresses:"
     ${pkgs.iproute2}/bin/ip -brief -4 address show scope global
     echo
-    echo "Exports:"
-    ${pkgs.nfs-utils}/bin/showmount --exports localhost
-    echo
     ${pkgs.systemd}/bin/systemctl --no-pager --full status \
-      nfs-server.service tftpd-hpa.service || true
+      tftpd-hpa.service || true
   '';
 in
 {
@@ -209,29 +203,16 @@ in
       description = "Home directory; normally inferred from users.users.<name>.home.";
     };
 
-    nfsRoot = lib.mkOption {
-      type = lib.types.nullOr lib.types.str;
-      default = null;
-      description = "NFS root path; defaults to <home>/nfsroot as expected by Barebox.";
-    };
-
     tftpRoot = lib.mkOption {
       type = lib.types.nullOr lib.types.str;
       default = null;
       description = "TFTP content path; defaults to <home>/tftpboot.";
     };
 
-    exportClients = lib.mkOption {
-      type = lib.types.listOf lib.types.str;
-      default = [ "*" ];
-      example = [ "192.168.10.0/24" ];
-      description = "Hosts or networks allowed to mount the development NFS root.";
-    };
-
     openFirewall = lib.mkOption {
       type = lib.types.bool;
       default = true;
-      description = "Open the fixed NFS, RPC, and TFTP ports in the NixOS firewall.";
+      description = "Open the TFTP port in the NixOS firewall.";
     };
   };
 
@@ -247,36 +228,9 @@ in
       }
     ];
 
-    warnings = lib.optional (cfg.exportClients == [ "*" ]) ''
-      Mozart netboot exports NFS with no_root_squash to every reachable client.
-      Prefer services.mozart-netboot.exportClients = [ "<development-subnet>" ].
-    '';
-
     systemd.tmpfiles.rules = [
-      "d ${nfsRoot} 0755 ${cfg.user} ${group} - -"
       "d ${tftpRoot} 0755 ${cfg.user} ${group} - -"
     ];
-
-    # Barebox uses NFSv3 for its root filesystem. Fixed auxiliary ports make the
-    # firewall configuration stable across rebuilds and reboots.
-    services.nfs.server = {
-      enable = true;
-      exports = lib.mkAfter exportLines;
-      mountdPort = 20048;
-      statdPort = 4000;
-    };
-    services.nfs.settings.nfsd = {
-      vers3 = true;
-      udp = true;
-      tcp = true;
-    };
-
-    # This kernel exposes lockd's ports through sysctl rather than accepting the
-    # nfs.conf lockd section used by the NixOS lockdPort option.
-    boot.kernel.sysctl = {
-      "fs.nfs.nlm_tcpport" = 4001;
-      "fs.nfs.nlm_udpport" = 4001;
-    };
 
     environment.etc."tftpd.map".text = ''
       r ^ ${tftpRoot}/
@@ -294,26 +248,11 @@ in
     };
 
     networking.firewall = lib.mkIf cfg.openFirewall {
-      allowedTCPPorts = [
-        111 # rpcbind
-        2049 # NFS
-        4000 # statd
-        4001 # lockd
-        20048 # mountd
-      ];
-      allowedUDPPorts = [
-        69 # TFTP
-        111
-        2049
-        4000
-        4001
-        20048
-      ];
+      allowedUDPPorts = [ 69 ]; # TFTP
     };
 
     environment.systemPackages = [
       netboot-info
-      pkgs.nfs-utils
       pkgs.picocom
       pkgs.python3
       pkgs.tftp-hpa

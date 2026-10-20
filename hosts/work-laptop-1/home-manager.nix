@@ -17,7 +17,7 @@
       pkgs.qpwgraph
       pkgs.libreoffice
       pkgs.wf-recorder
-      pkgs.gemini-cli
+      pkgs.antigravity-cli
       pkgs.perf
       pkgs.croc
     ];

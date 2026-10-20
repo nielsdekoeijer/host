@@ -10,8 +10,8 @@ if [[ -n "${GITHUB_TOKEN:-}" ]]; then
 fi
 
 if command -v nixos-rebuild >/dev/null 2>&1; then
-  # Pass the options to nixos-rebuild
-  sudo nixos-rebuild switch --show-trace "${NIX_OPTS[@]}" --flake ".#${HOSTNAME}"
+  # Evaluate and build as the repository owner; elevate only for activation.
+  nixos-rebuild switch --elevate sudo --show-trace "${NIX_OPTS[@]}" --flake ".#${HOSTNAME}"
 else
   # Pass the options to both `nix run` (to fetch the flake) and `home-manager` (to evaluate it)
   nix "${NIX_OPTS[@]}" run home-manager/master -- switch -b backup "${NIX_OPTS[@]}" --flake .#home-manager-only-wsl

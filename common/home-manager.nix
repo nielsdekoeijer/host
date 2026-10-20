@@ -62,7 +62,7 @@ in
     pkgs.unzip
     pkgs.zip
     pkgs.bat
-    pkgs.swww
+    pkgs.awww
     pkgs.lazygit
 
     # monitor script
@@ -114,7 +114,10 @@ in
 
   programs.omp.enable = true;
 
-  programs.firefox.enable = true;
+  programs.firefox = {
+    enable = true;
+    configPath = ".mozilla/firefox";
+  };
 
   programs.obsidian = {
     enable = true;

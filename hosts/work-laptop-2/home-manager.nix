@@ -7,9 +7,9 @@
   ...
 }:
 let
-  openconnect-sso = inputs.openconnect-sso.packages.${pkgs.system}.openconnect-sso;
+  openconnect-sso = inputs.openconnect-sso.packages.${pkgs.stdenv.hostPlatform.system}.openconnect-sso;
   openconnect-sso-qtwayland =
-    inputs.nixpkgs-openconnect-sso.legacyPackages.${pkgs.system}.qt6.qtwayland;
+    inputs.nixpkgs-openconnect-sso.legacyPackages.${pkgs.stdenv.hostPlatform.system}.qt6.qtwayland;
   openconnect-sso-wayland = pkgs.symlinkJoin {
     name = "openconnect-sso-wayland";
     paths = [ openconnect-sso ];
@@ -36,7 +36,7 @@ in
       pkgs.qpwgraph
       pkgs.libreoffice
       pkgs.wf-recorder
-      pkgs.gemini-cli
+      pkgs.antigravity-cli
       pkgs.perf
       pkgs.croc
       pkgs.uv
@@ -46,11 +46,11 @@ in
       pkgs.signal-desktop
 
       # log viewer
-      inputs.lazylog.packages.${pkgs.system}.default
-      inputs.context.packages.${pkgs.system}.default
+      inputs.lazylog.packages.${pkgs.stdenv.hostPlatform.system}.default
+      inputs.context.packages.${pkgs.stdenv.hostPlatform.system}.default
       openconnect-sso-wayland
-      inputs.cimple.packages.${pkgs.system}.default
-      inputs.cimple-fill.packages.${pkgs.system}.default
+      inputs.cimple.packages.${pkgs.stdenv.hostPlatform.system}.default
+      inputs.cimple-fill.packages.${pkgs.stdenv.hostPlatform.system}.default
     ];
   };
 

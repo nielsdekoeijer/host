@@ -5,14 +5,15 @@ in
 {
   wayland.windowManager.hyprland = {
     enable = true;
+    configType = "hyprlang";
     settings = {
 
       # on start
       exec-once = [
         "hyprctl setcursor Bibata-Modern-Ice 16"
         "waybar &"
-        "swww-daemon &"
-        "swww img ${wallpaper}"
+        "awww-daemon &"
+        "awww img ${wallpaper}"
       ];
 
       # default programs

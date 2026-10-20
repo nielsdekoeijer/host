@@ -7,9 +7,8 @@ in
     enable = true;
     lfs.enable = true;
 
-    userName = "Niels de Koeijer";
-
-    extraConfig = {
+    settings = {
+      user.name = "Niels de Koeijer";
       diff.tool = "nvimdiff";
       merge.tool = "nvimdiff";
       difftool.prompt = false;

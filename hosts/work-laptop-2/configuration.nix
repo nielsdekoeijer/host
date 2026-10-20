@@ -9,7 +9,7 @@
   ...
 }:
 let
-  pijpkijk = inputs.pijpkijk.packages.${pkgs.system}.default;
+  pijpkijk = inputs.pijpkijk.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
   pijpkijk-pick = pkgs.writeShellScriptBin "pijpkijk-pick" ''
     set -euo pipefail
@@ -54,7 +54,7 @@ let
       sleep 0.1
     done
 
-    PIPEWIRE_RUNTIME_DIR="$socket_dir" ${lib.getExe pijpkijk}
+    PIPEWIRE_RUNTIME_DIR="$socket_dir" ${lib.getExe' pijpkijk "pijpkijk"}
   '';
 in
 {
@@ -62,6 +62,11 @@ in
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
+  boot.kernelModules = [ "v4l2loopback" ];
+  boot.extraModprobeConfig = ''
+    options v4l2loopback devices=1 video_nr=10 card_label=EmotiGuy exclusive_caps=1
+  '';
 
   imports = [
     ../../common/configuration.nix

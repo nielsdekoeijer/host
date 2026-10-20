@@ -71,7 +71,7 @@
   environment.pathsToLink = [ "/share/bash-completion" ];
   documentation = {
     dev.enable = true;
-    man.generateCaches = false;
+    man.cache.enable = false;
     nixos.includeAllModules = true;
   };
 

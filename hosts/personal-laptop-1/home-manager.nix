@@ -23,7 +23,7 @@
       pkgs.runelite
       pkgs.beancount
       pkgs.fava
-      inputs.context.packages.${pkgs.system}.default
+      inputs.context.packages.${pkgs.stdenv.hostPlatform.system}.default
     ];
   };
 

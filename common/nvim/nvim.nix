@@ -2,6 +2,8 @@
 {
   programs.neovim = {
     enable = true;
+    withRuby = true;
+    withPython3 = true;
 
     # set vi alias
     viAlias = true;
@@ -46,6 +48,17 @@
       # git
       pkgs.vimPlugins.gitsigns-nvim
       pkgs.vimPlugins.vim-fugitive
+      (pkgs.vimUtils.buildVimPlugin {
+        pname = "gitlinker.nvim";
+        version = "2026-10-09";
+        src = pkgs.fetchFromGitHub {
+          owner = "linrongbin16";
+          repo = "gitlinker.nvim";
+          rev = "cc6a52ee2b5d3639ce5c5d6c97bcc8e98d1c5980";
+          sha256 = "1r6si6nixw2liijsnj827fyh07pzhansqmhda8mk14bbsmz037bq";
+        };
+        nvimSkipModules = [ "spec_init" ]; # Upstream test bootstrap, not a runtime module.
+      })
 
       # lsp stuff
       pkgs.vimPlugins.nvim-lspconfig
@@ -68,7 +81,7 @@
     ];
 
     # extra lua
-    extraLuaConfig = ''
+    initLua = ''
       -- color
       vim.g.aurora_transparent = 1
       vim.cmd.colorscheme('aurora')
@@ -174,6 +187,10 @@
 
       -- leader
       vim.g.mapleader = " "
+
+      -- git permalinks
+      require('gitlinker').setup()
+      vim.keymap.set({ 'n', 'v' }, '<leader>gy', '<cmd>GitLink<cr>', { desc = 'Copy git permalink' })
 
       -- scroll
       vim.opt.mousescroll = "ver:1,hor:1"
